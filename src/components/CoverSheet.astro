@@ -1,0 +1,104 @@
+---
+/* Section 01 — the cover sheet.
+   A case caption, not a headline with an eyebrow. See hero.css
+   for the two-beat mechanic. */
+import '../styles/hero.css';
+import { org, mission, cover } from '../content/site';
+---
+
+<section class="cover" aria-labelledby="cover-counsel">
+
+  {/* Plate. Abstract texture, no subject — nothing that could be
+      read as documentation. The still is always present; the
+      video layers over it and is dropped under reduced motion. */}
+  <img
+    class="cover__plate"
+    src="/media/hero-plate.jpg"
+    alt=""
+    aria-hidden="true"
+    decoding="async"
+    fetchpriority="high"
+  />
+  <video
+    class="cover__plate cover__plate--video"
+    src="/media/hero.mp4"
+    poster="/media/hero-plate.jpg"
+    autoplay muted loop playsinline
+    aria-hidden="true"
+    tabindex="-1"
+  ></video>
+
+  <div class="sheet">
+
+    <p class="cover__court">{cover.courtLine}</p>
+
+    <div class="cover__caption">
+      <div>
+        {/* The vacancy. Never filled — nothing here may resemble
+            a real party to a real matter. */}
+        <p class="cover__party cover__party--blank" aria-hidden="true">
+          <span class="blank"></span>
+        </p>
+        <p class="cover__vee"><em>— {cover.vacancyNote}</em></p>
+
+        {/* The entry. Outline resolving to ink. */}
+        <h1
+          class="cover__party cover__party--counsel"
+          id="cover-counsel"
+          data-text={org.name}
+        >{org.name}</h1>
+      </div>
+
+      <div class="cover__meta">
+        {cover.particulars.map((p) => (
+          <div>{p.label} <b>{p.value}</b></div>
+        ))}
+      </div>
+    </div>
+
+    <hr class="cover__rule" />
+
+    <div class="cover__body">
+      {/* CONTENT SLOT — mission. Factual description only. */}
+      <p class="cover__lede">
+        {mission.lede} — <em>{mission.ledeQualifier}</em>
+      </p>
+
+      <div class="cover__act">
+        <a class="action action--dark" href={org.donateUrl} rel="noopener">Donate</a>
+        <a class="cover__cue" href="#cause-list">
+          <span class="arrow" aria-hidden="true"></span>
+          <span>Read the record</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  /* Start the two-beat entry once the display face has loaded.
+     Caslon Display and the Georgia fallback have different
+     metrics, so firing early makes the solid copy wipe across
+     letterforms that are about to reflow.
+
+     The page is complete without this script: CSS defaults are
+     the finished state, and only the .js class (set inline in
+     <head>) opts into the pre-animation state. */
+  const root = document.documentElement;
+
+  function begin() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => root.classList.add('is-ready'));
+    });
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    let started = false;
+    const start = () => { if (!started) { started = true; begin(); } };
+    document.fonts.ready.then(start);
+    setTimeout(start, 1200);
+  } else {
+    begin();
+  }
+</script>

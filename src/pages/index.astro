@@ -1,14 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-import HeroAppearance from '../components/HeroAppearance.astro';
-import RecordFooter from '../components/RecordFooter.astro';
+import RunningHead from '../components/RunningHead.astro';
+import CoverSheet from '../components/CoverSheet.astro';
+import CauseList from '../components/CauseList.astro';
+import Colophon from '../components/Colophon.astro';
 ---
 
 <Base>
-  <SiteHeader />
+  <RunningHead />
   <main id="main">
-    <HeroAppearance />
+    <CoverSheet />
+    <CauseList />
   </main>
-  <RecordFooter />
+  <Colophon />
 </Base>

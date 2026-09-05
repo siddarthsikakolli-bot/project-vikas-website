@@ -1,0 +1,20 @@
+---
+/* A brief carries its identity on every page. This is that, not
+   a nav bar: identity left, sections centre, standing right. */
+import { org, nav } from '../content/site';
+const [first, second] = org.nameParts;
+---
+
+<header class="runhead">
+  <div class="sheet">
+    <a class="runhead__id" href="/">{first} <span class="accent">{second}</span></a>
+
+    <nav class="runhead__nav" aria-label="Sections">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <p class="runhead__folio">
+      Est. 2025 · <b>{org.fiscalSponsor.status}</b>
+    </p>
+  </div>
+</header>

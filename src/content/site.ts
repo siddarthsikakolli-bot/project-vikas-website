@@ -129,3 +129,60 @@ export const footerConnect = [
   { label: 'LinkedIn', href: org.social.linkedin },
   { label: 'Instagram', href: org.social.instagram },
 ] as const;
+
+/* ------------------------------------------------------------
+   Section 01 — the cover sheet
+   ------------------------------------------------------------ */
+export const cover = {
+  courtLine: 'In the matter of access to legal representation',
+  /** The unrepresented party. Stays blank, always. */
+  vacancyNote: 'appearing without counsel',
+  particulars: [
+    { label: 'Filed', value: '12 February 2025' },
+    { label: 'Fiscal sponsor', value: 'Indian Friends of Atlanta' },
+    { label: 'Status', value: '501(c)(3)' },
+  ],
+} as const;
+
+/* ------------------------------------------------------------
+   Section 02 — the cause list
+   Copy drawn from the HULR pitch deck and the launch video
+   script, tightened. No mission statement is asserted: the
+   closing line states what the organisation does, not what it
+   believes.
+   ------------------------------------------------------------ */
+export const causeList = {
+  heading: 'The cause list',
+  paras: [
+    {
+      n: '¶ 1',
+      text: 'In much of rural India, law firms and legal clinics are few and far between. Representation is priced beyond reach, and the firms that would work for less often cannot afford to keep their doors open.',
+      note: { label: 'Note', text: 'Project Vikas funds the organisations that provide representation. It does not provide representation itself.' },
+    },
+    {
+      n: '¶ 2',
+      text: 'So when a dispute becomes a crisis, people go to court without counsel — without the means to argue their case, or to defend rights they already hold.',
+      note: null,
+    },
+    {
+      n: '¶ 3',
+      text: 'That gap is what our funding is directed at.',
+      note: { label: 'As confirmed', text: 'Raised since 12 February 2025: $18,000. Partner organisations: 4.' },
+    },
+  ],
+
+  /* Illustrative rows. No party names, no docket numbers, nothing
+     that could be read as a real matter — see causelist.css. The
+     heard row differs only by the rule under its blank being
+     drawn, which repeats the cover-sheet mechanic. */
+  rows: [
+    { n: '1.', status: 'Adjourned — no appearance', heard: false },
+    { n: '2.', status: 'Awaiting counsel', heard: false },
+    { n: '3.', status: 'Adjourned — no appearance', heard: false },
+    { n: '4.', status: 'Awaiting counsel', heard: false },
+    { n: '5.', status: 'Counsel appeared', heard: true },
+    { n: '6.', status: 'Awaiting counsel', heard: false },
+  ],
+
+  note: 'Illustrative. No real matter, party, or docket number is depicted.',
+} as const;

@@ -60,15 +60,36 @@
   --on-dark-3:    #76746D;
   --on-dark-rule: #2A2826;
 
-  /* --- type ----------------------------------------------- */
-  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --f-body:    "Newsreader", Georgia, "Times New Roman", serif;
-  --f-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* --- type -----------------------------------------------
+     One family plus a typewriter.
 
-  /* --- layout --------------------------------------------- */
-  --maxw:   1240px;
-  --gutter: clamp(20px, 4vw, 56px);
-  --rail:   140px;
+     Caslon is the anglophone legal and parliamentary face, and
+     Indian legal publishing inherits British typographic
+     convention directly — apt for the subject and the
+     jurisdiction both. At extreme scale it is still bold; it is
+     simply not the grotesque every other site is using.
+
+     Courier is what court transcripts are set in. Coding
+     monospace (Plex, JetBrains) reads as a developer tool, which
+     is the single detail that made the old build feel like
+     software. Do not reintroduce one.
+
+     Retired: Archivo, Newsreader, IBM Plex Mono.
+     -------------------------------------------------------- */
+  --f-display: "Libre Caslon Display", Georgia, "Times New Roman", serif;
+  --f-text:    "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --f-rec:     "Courier Prime", ui-monospace, Courier, monospace;
+
+  /* --- layout ---------------------------------------------
+     A document has an asymmetric measure and a live margin, not
+     a centred column. --measure is the text block; the margin
+     beside it carries annotation.
+     -------------------------------------------------------- */
+  --maxw:    1180px;
+  --gutter:  clamp(20px, 4vw, 48px);
+  --measure: 34em;
+  --pnum:    4.2em;   /* paragraph-number column */
+  --colgap:  28px;
 
   /* --- motion --------------------------------------------- */
   --ease-out:  cubic-bezier(0.22, 0.61, 0.36, 1);

@@ -1,5 +1,18 @@
 /* ============================================================
-   Project Vikas — base, header, footer
+   Project Vikas — base, running head, document grid, colophon
+   ------------------------------------------------------------
+   The page is shaped like a printed record, not a landing page.
+   The conventions here are load-bearing, not decorative:
+
+     running head   a brief carries its identity on every page
+     paragraph nos. the strongest legal signal available
+     live margin    carries annotation, the way a law report does
+     rules          structure; cards are never used
+     ledgers        figures are scheduled, not tiled
+
+   Explicitly absent: cards with radius and shadow, centred
+   symmetric containers, letterspaced uppercase labels, and
+   button pairs.
    ============================================================ */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -10,9 +23,12 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--f-body);
+  font-family: var(--f-text);
   font-size: 17px;
-  line-height: 1.62;
+  line-height: 1.66;
+  /* Oldstyle figures in running prose, as any typeset document
+     uses. Tables opt back into lining tabular numerals. */
+  font-variant-numeric: oldstyle-nums;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,118 +36,175 @@ body {
 img, video { max-width: 100%; display: block; }
 
 a {
-  color: var(--ink);
+  color: var(--maroon);
   text-decoration: underline;
-  text-decoration-color: var(--maroon);
-  text-underline-offset: 3px;
+  text-underline-offset: 2px;
   text-decoration-thickness: 1px;
 }
-a:hover { color: var(--maroon); }
-
+a:hover { color: var(--ink); }
 :focus-visible { outline: 2px solid var(--maroon); outline-offset: 3px; }
 
-.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+.sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
   background: var(--ink); color: var(--paper); padding: 12px 18px;
-  font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--f-rec); font-size: 12px;
 }
 .skip:focus { left: 0; }
 
-.u-mono {
-  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase;
-}
-.tabnum { font-variant-numeric: tabular-nums; }
+/* Defined terms sit in small caps inside running prose rather
+   than interrupting it with letterspaced caps. */
+.sc { font-variant-caps: all-small-caps; letter-spacing: .06em; }
+.tabular { font-variant-numeric: lining-nums tabular-nums; }
 
 /* ------------------------------------------------------------
-   Header — sits over the hero, so it is light-on-dark at rest.
+   Running head. Sits over the cover sheet, so it prints light.
    ------------------------------------------------------------ */
-.site-header {
+.runhead {
   position: absolute; inset: 0 0 auto 0; z-index: 20;
-  padding: 22px 0;
 }
-.site-header .wrap {
-  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+.runhead .sheet {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px 24px; flex-wrap: wrap;
+  padding-top: 20px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--on-dark-rule);
 }
+.runhead a { color: var(--on-dark-2); text-decoration: none; }
+.runhead a:hover { color: var(--on-dark); }
 
-.wordmark {
-  font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
-  font-size: 17px; letter-spacing: -.01em; color: var(--on-dark);
-  text-decoration: none; line-height: 1; white-space: nowrap;
+.runhead__id {
+  font-family: var(--f-display);
+  font-size: 17px; letter-spacing: .01em; color: var(--on-dark);
+  text-decoration: none; white-space: nowrap;
 }
-.wordmark:hover { color: var(--on-dark); }
-.wordmark .mark-v { color: var(--maroon-on-dark); }
+.runhead__id:hover { color: var(--on-dark); }
+.runhead__id .accent { color: var(--maroon-on-dark); }
 
-.site-nav { display: flex; align-items: center; gap: 26px; }
-.site-nav a {
-  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--on-dark-2); text-decoration: none;
+.runhead__nav {
+  display: none; gap: 22px;
+  font-family: var(--f-rec); font-size: 12px; color: var(--on-dark-2);
 }
-.site-nav a:hover { color: var(--on-dark); }
+@media (min-width: 900px) { .runhead__nav { display: flex; } }
 
-.nav-links { display: none; gap: 26px; }
-@media (min-width: 900px) { .nav-links { display: flex; } }
-
-.btn-donate {
-  font-family: var(--f-mono); font-size: 11px; font-weight: 600;
-  letter-spacing: .14em; text-transform: uppercase;
-  /* The primary action is off-white on near-black: maximum
-     contrast, and it keeps maroon as an accent rather than a UI
-     colour. Mid-maroon fails 4.5:1 with either black or white
-     type on it. */
-  background: var(--on-dark); color: var(--stage);
-  padding: 11px 20px; text-decoration: none; white-space: nowrap;
-  transition: background 160ms var(--ease-out);
+.runhead__folio {
+  font-family: var(--f-rec); font-size: 12px; color: var(--on-dark-3);
+  white-space: nowrap;
 }
-.btn-donate:hover { background: var(--maroon-on-dark-2); color: var(--stage); }
+.runhead__folio b { color: var(--maroon-on-dark); font-weight: 400; }
 
 /* ------------------------------------------------------------
-   Record footer — trust lives in the fine print.
+   The document grid: paragraph number | text block | margin
    ------------------------------------------------------------ */
-.record-footer {
-  border-top: 7px solid var(--rule-strong);
-  padding: 44px 0 56px;
+.doc { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 940px) {
+  .doc {
+    grid-template-columns: var(--pnum) minmax(0, var(--measure)) 1fr;
+    column-gap: var(--colgap);
+  }
+}
+.para { display: contents; }
+
+.pnum {
+  font-family: var(--f-rec); font-size: 12px; color: var(--maroon);
+  padding-top: .34em; text-align: right; white-space: nowrap;
+}
+@media (max-width: 939px) {
+  .pnum { text-align: left; padding-top: 18px; }
+}
+
+.ptext { min-width: 0; padding-bottom: 18px; }
+.ptext > p { margin: 0 0 13px; }
+.ptext > p:last-child { margin-bottom: 0; }
+
+/* The margin carries real annotation. If a note has nothing to
+   say, the cell is left empty rather than filled with a caption. */
+.marg {
+  font-family: var(--f-rec); font-size: 11.5px; line-height: 1.55;
+  color: var(--ink-3); padding-top: .42em;
+}
+.marg b { color: var(--maroon); font-weight: 400; display: block; }
+@media (max-width: 939px) {
+  .marg:not(:empty) {
+    padding: 0 0 18px 14px; margin-bottom: 6px;
+    border-left: 2px solid var(--rule);
+  }
+}
+
+/* ------------------------------------------------------------
+   Section heads. Numbered, ruled, full width of the grid.
+   ------------------------------------------------------------ */
+.sec-head {
+  grid-column: 1 / -1;
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(25px, 3.4vw, 38px); line-height: 1.05;
+  margin: 0; padding: 40px 0 7px;
+  border-bottom: 1px solid var(--ink);
+  text-wrap: balance;
+}
+.sec-head .n {
+  font-family: var(--f-rec); font-size: .34em; color: var(--maroon);
+  vertical-align: .55em; margin-right: .7em;
+}
+
+.rule-double {
+  grid-column: 1 / -1;
+  border: 0; border-top: 3px double var(--ink); margin: 34px 0 0;
+}
+
+/* ------------------------------------------------------------
+   The single action. Not a button pair — a record offers one.
+   ------------------------------------------------------------ */
+.action {
+  display: inline-block;
+  font-family: var(--f-rec); font-size: 13px;
+  padding: 11px 22px; text-decoration: none;
+  border: 1px solid currentColor;
+  transition: background 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+.action--dark { color: var(--on-dark); }
+.action--dark:hover { background: var(--on-dark); color: var(--stage); }
+.action--light { color: var(--ink); }
+.action--light:hover { background: var(--ink); color: var(--paper); }
+
+/* ------------------------------------------------------------
+   Colophon. Where a document records its own provenance.
+   ------------------------------------------------------------ */
+.colophon {
+  border-top: 3px double var(--ink);
+  margin-top: 52px; padding: 30px 0 60px;
   background: var(--paper);
 }
-.footer-grid {
-  display: grid; grid-template-columns: 1fr; gap: 32px;
-  padding-bottom: 34px;
+.colophon__grid {
+  display: grid; grid-template-columns: 1fr; gap: 26px;
+  padding-bottom: 26px;
 }
-@media (min-width: 760px) {
-  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+@media (min-width: 820px) {
+  .colophon__grid { grid-template-columns: var(--pnum) minmax(0, var(--measure)) 1fr; column-gap: var(--colgap); }
 }
-.footer-grid h2 {
-  font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--maroon);
-  margin: 0 0 14px;
+.colophon__mark { font-family: var(--f-rec); font-size: 12px; color: var(--maroon); }
+.colophon__body p { margin: 0 0 12px; }
+.colophon__body p:last-child { margin-bottom: 0; }
+.colophon__body .name {
+  font-family: var(--f-display); font-size: 21px; margin: 0 0 10px;
 }
-.footer-grid ul { list-style: none; margin: 0; padding: 0; }
-.footer-grid li { margin-bottom: 9px; }
-.footer-grid li a {
-  font-size: 15px; color: var(--ink-2); text-decoration: none;
-  border-bottom: 1px solid transparent;
-}
-.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--maroon); }
+.colophon__body .name .accent { color: var(--maroon); }
 
-.footer-about .fw {
-  font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
-  font-size: 21px; letter-spacing: -.015em; margin: 0 0 12px; color: var(--ink);
+.colophon__links {
+  font-family: var(--f-rec); font-size: 12.5px; line-height: 1.9;
 }
-.footer-about p { margin: 0 0 12px; max-width: 46ch; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }
+.colophon__links ul { list-style: none; margin: 0 0 14px; padding: 0; }
+.colophon__links li::before { content: "— "; color: var(--ink-3); }
+.colophon__links a { color: var(--ink-2); text-decoration: none; }
+.colophon__links a:hover { color: var(--maroon); text-decoration: underline; }
 
-/* Registration block — deliberately plain, deliberately specific. */
 .registration {
-  border-top: 1px solid var(--rule-hair);
-  padding-top: 20px;
-  display: grid; grid-template-columns: 1fr; gap: 10px 40px;
-  font-family: var(--f-mono); font-size: 11px; line-height: 1.7;
-  letter-spacing: .04em; color: var(--ink-3);
+  border-top: 1px solid var(--rule); padding-top: 18px;
+  font-family: var(--f-rec); font-size: 11.5px; line-height: 1.8; color: var(--ink-3);
+  display: grid; grid-template-columns: 1fr; gap: 10px 28px;
 }
-@media (min-width: 760px) { .registration { grid-template-columns: 2fr 1fr; } }
-.registration .cert { color: var(--maroon); font-weight: 600; }
+@media (min-width: 820px) { .registration { grid-template-columns: 2fr 1fr; } }
+.registration p { margin: 0; }
 .registration a { color: var(--ink-3); }
 .registration a:hover { color: var(--maroon); }
 
