@@ -318,3 +318,34 @@ export const figuresSection = {
   cols: { n: 'No.', item: 'Item', asOf: 'As at', figure: 'Figure' },
   note: 'Where a figure is a floor rather than an exact count, it is written as such. The volunteer programme runs on Slack and cannot be counted precisely, so it is stated as more than one hundred rather than given a false precision.',
 } as const;
+
+/* ------------------------------------------------------------
+   Section 05 — the waiting
+   ------------------------------------------------------------
+   A scroll-scrubbed sequence: the file does not change, only the
+   light on it does. Scroll is the medium because scroll is
+   duration — crossing this section costs real seconds.
+
+   TEST, not a commitment. Contained to one section and one small
+   frame sequence so it can be cut without touching anything else.
+
+   Nothing here fabricates a matter. There are no dates, no docket
+   number and no party: the readout counts listings, which is a
+   description of how a court works rather than a claim about any
+   particular case. The count of pending matters stays blank for
+   the same reason it is blank at the head of the page.
+   ------------------------------------------------------------ */
+export const waiting = {
+  heading: 'The waiting',
+  paras: [
+    {
+      n: '¶ 7',
+      text: 'A matter that is not heard is listed again. The file does not change between listings. What changes is how long someone has been waiting for it to be opened.',
+      note: { label: 'Note', text: 'Illustrative. No date, docket number or party is depicted — only the shape of a matter that is repeatedly listed and not reached.' },
+    },
+  ],
+  /** Stations shown across the scrub, in order. */
+  stations: ['Filed', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Still listed'],
+  counterLabel: 'Listings',
+  caption: 'The light moves. The file does not.',
+} as const;

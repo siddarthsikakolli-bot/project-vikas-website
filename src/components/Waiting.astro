@@ -1,0 +1,156 @@
+---
+/* Section 05 — the waiting.
+   A scroll-scrubbed frame sequence. TEST: contained to this one
+   section and one small set of frames, so it can be cut whole. */
+import '../styles/waiting.css';
+import { waiting } from '../content/site';
+
+/* 36 frames. The generated clip runs to near-total black in its
+   last two frames; those are dropped so the sequence ends on the
+   dimmest frame that still reads as a file rather than on nothing. */
+const FRAMES = 36;
+const pad = (n: number) => String(n).padStart(2, '0');
+const payload = {
+  frames: Array.from({ length: FRAMES }, (_, i) => `/media/waiting/w-${pad(i)}.jpg`),
+  stations: waiting.stations,
+};
+---
+
+<section class="sheet" id="waiting" aria-labelledby="waiting-head">
+  <div class="doc">
+
+    <h2 class="sec-head" id="waiting-head">
+      <span class="n">05</span>{waiting.heading}
+    </h2>
+
+    {waiting.paras.map((p) => (
+      <div class="para">
+        <div class="pnum">{p.n}</div>
+        <div class="ptext"><p>{p.text}</p></div>
+        <div class="marg">
+          {p.note && <><b>{p.note.label}</b>{p.note.text}</>}
+        </div>
+      </div>
+    ))}
+
+    <div class="waiting" id="waiting-track">
+      <div class="waiting__sticky">
+        <img
+          class="waiting__poster"
+          src={payload.frames[0]}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+        <canvas class="waiting__canvas" id="waiting-canvas" aria-hidden="true"></canvas>
+        <div class="waiting__scrim" aria-hidden="true"></div>
+
+        <div class="waiting__hud">
+          <p class="waiting__station" id="waiting-station">{waiting.stations[0]}</p>
+          <p class="waiting__count">
+            <span>{waiting.counterLabel} <b id="waiting-count">1</b></span>
+          </p>
+          <p class="waiting__cap">{waiting.caption}</p>
+        </div>
+      </div>
+
+      <script type="application/json" id="waiting-data" set:html={JSON.stringify(payload)}></script>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  /* Scroll position drives which frame is drawn. Frames are
+     preloaded and painted to a canvas rather than swapped as
+     img.src, which would flash on every change.
+
+     Scroll physics are untouched — the section is simply tall, so
+     crossing it takes more scrolling. No wheel interception. */
+  const track = document.getElementById('waiting-track');
+  const canvas = document.getElementById('waiting-canvas') as HTMLCanvasElement | null;
+  const stationEl = document.getElementById('waiting-station');
+  const countEl = document.getElementById('waiting-count');
+  const dataEl = document.getElementById('waiting-data');
+
+  if (track && canvas && stationEl && countEl && dataEl) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const data = JSON.parse(dataEl.textContent || '{}');
+    const srcs: string[] = data.frames || [];
+    const stations: string[] = data.stations || [];
+
+    if (srcs.length && !reduced) {
+      const ctx = canvas.getContext('2d');
+      const images: HTMLImageElement[] = [];
+      let loaded = 0;
+      let current = -1;
+
+      const draw = (i: number) => {
+        const img = images[i];
+        if (!ctx || !img || !img.complete || !img.naturalWidth) return;
+        const r = canvas.getBoundingClientRect();
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        if (canvas.width !== Math.round(r.width * dpr)) {
+          canvas.width = Math.round(r.width * dpr);
+          canvas.height = Math.round(r.height * dpr);
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // cover
+        const s = Math.max(r.width / img.naturalWidth, r.height / img.naturalHeight);
+        const w = img.naturalWidth * s, h = img.naturalHeight * s;
+        ctx.clearRect(0, 0, r.width, r.height);
+        ctx.drawImage(img, (r.width - w) / 2, (r.height - h) / 2, w, h);
+      };
+
+      srcs.forEach((src, i) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => {
+          loaded++;
+          if (loaded === 1) { track.classList.add('is-ready'); draw(0); }
+          if (i === current) draw(i);
+        };
+        img.src = src;
+        images[i] = img;
+      });
+
+      /* Updates synchronously on scroll rather than deferring to
+         requestAnimationFrame. The work is an integer compare and,
+         only when the frame index actually changes, one drawImage —
+         cheap enough not to need throttling.
+
+         More to the point: every time state has been deferred to
+         rAF or an IntersectionObserver on this site, it has failed
+         silently somewhere the document was not being painted, and
+         left the section frozen in its initial state. A scrub that
+         does not scrub is worse than one that costs a few extra
+         microseconds. */
+      let lastStation = -1;
+      const update = () => {
+        const r = track.getBoundingClientRect();
+        const total = r.height - innerHeight;
+        if (total <= 0) return;
+        const p = Math.min(1, Math.max(0, -r.top / total));
+
+        const i = Math.min(srcs.length - 1, Math.floor(p * srcs.length));
+        if (i !== current) { current = i; draw(i); }
+
+        const s = Math.min(stations.length - 1, Math.floor(p * stations.length));
+        if (s !== lastStation) {
+          lastStation = s;
+          stationEl.textContent = stations[s];
+          countEl.textContent = String(s + 1);
+        }
+      };
+
+      addEventListener('scroll', update, { passive: true });
+      addEventListener('resize', () => { current = -1; update(); });
+      /* The canvas is sized from its rect inside draw(), so the first
+         paint must happen after layout — not from an image onload
+         that may land before it. */
+      addEventListener('load', () => { current = -1; update(); });
+      update();
+    }
+  }
+</script>

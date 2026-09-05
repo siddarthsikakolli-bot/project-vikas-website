@@ -28,6 +28,7 @@ rules only.
 | `plate-doorway.jpg` | recraft_v4_1 | Still life — empty threshold |
 | `plate-ledger.jpg` | recraft_v4_1 | Still life — ruled register page |
 | `og-card.jpg` | composite | Share card: generated plate + Archivo wordmark |
+| `waiting/w-00..35.jpg` | minimax_h3 | Section 05 scroll-scrubbed sequence, 36 frames extracted from one 10s clip. Locked camera on a bound file; only the light changes. 2.1MB total |
 
 None of these depict real people, real cases, or real Project Vikas work.
 They are interpretive still life and texture, chosen deliberately over
