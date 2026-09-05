@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Design reference material (local only — large screenshots/video, not site source)
+Ref_Farm_Africa/
+Ref_Age_of_Union/
+Ref_Van_Morrison/
+
+# Node / build
+node_modules/
+dist/
+.vercel/
+*.log
+.env
+.env.local
