@@ -15,13 +15,15 @@ import '../styles/field.css';
 import { field } from '../content/site';
 import {
   clearedNotices,
-  activeJurisdictions,
+  programmeJurisdictions,
   scrambleAlphabets,
 } from '../content/jurisdictions';
 
-/* Jurisdiction names complete the count sentence, so a second
-   programme area changes this line without touching markup. */
-const names = activeJurisdictions.map((j) => j.label);
+/* PROGRAMME jurisdictions only — the United States is active for
+   fundraising and must not appear in a sentence about courts we
+   work in. A second programme area changes this line without
+   touching markup. */
+const names = programmeJurisdictions.map((j) => j.label);
 const where =
   names.length === 0 ? 'the courts'
   : names.length === 1 ? `${names[0]}’s courts`

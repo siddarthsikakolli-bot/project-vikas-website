@@ -83,7 +83,25 @@ export interface NoticeSpecimen {
 export interface Jurisdiction {
   id: string;
   label: string;
-  /** False = scaffolded but not public. */
+
+  /**
+   * What we actually do here. This is the distinction that keeps the
+   * site honest as the focus shifts:
+   *
+   *   fundraising  money is raised here
+   *   programme    matters are heard here and partners work here
+   *   both         both of the above
+   *
+   * The United States is `fundraising` today and nothing more. It
+   * becomes `both` the day a US programme is real — at which point
+   * every derived line on the site updates itself.
+   */
+  role: 'fundraising' | 'programme' | 'both';
+
+  /** Lower leads. Which jurisdiction the site is primarily about. */
+  priority: number;
+
+  /** False = present in code, invisible on the site. */
   active: boolean;
   /** What that system calls its register of matters to be heard. */
   registerTerm: string;
@@ -102,6 +120,8 @@ export const jurisdictions: Jurisdiction[] = [
   {
     id: 'in',
     label: 'India',
+    role: 'programme',
+    priority: 1,
     active: true,
     registerTerm: 'cause list',
     credential: {
@@ -145,43 +165,72 @@ export const jurisdictions: Jurisdiction[] = [
     ],
   },
 
-  /* ----------------------------------------------------------
-     United States — scaffolded, NOT public.
-     `active: false` keeps it out of every render, and its notices
-     are uncleared besides. Populate and flip both only when the
-     programme is real; publishing Spanish, Mandarin, Haitian
-     Creole or Vietnamese notices before then would imply a US
-     programme that has not been decided.
+  {
+    /* ------------------------------------------------------------
+       United States.
 
-     The shape it would take:
+       `role: 'fundraising'` is the whole of what is true today:
+       Project Vikas raises money here. It runs no programme here,
+       has no partner here, and represents nobody here.
 
-     {
-       id: 'us',
-       label: 'United States',
-       active: false,
-       registerTerm: 'docket',
-       notices: [
-         { lang: 'es-US', script: 'latin', kind: 'Aviso de desalojo', … cleared: false },
-         { lang: 'zh-Hans', script: 'han',   kind: '出庭通知',        … cleared: false },
-         { lang: 'ht',      script: 'latin', kind: 'Avi pou parèt',   … cleared: false },
-         { lang: 'vi',      script: 'latin', kind: 'Thông báo hầu tòa', … cleared: false },
-       ],
-       motifs: [
-         'Legal-aid deserts: counties with no legal aid provider.',
-         'Pro se representation — appearing without counsel.',
-         'The clerk of court\'s received stamp.',
-       ],
-     },
-     ---------------------------------------------------------- */
+       There is an intent to focus more on US work — immigrant
+       communities, public defence — but intent is not a programme,
+       and nothing on this site may imply one exists. So:
+
+         · notices is empty. No Spanish, Mandarin, Haitian Creole or
+           Vietnamese specimens are written here, because writing
+           legal text we cannot verify is the same failure as
+           fabricating a record, only in a language fewer of us can
+           check.
+         · the notice field asks for PROGRAMME jurisdictions, so this
+           entry cannot leak into it while the role stays 'fundraising'.
+
+       TO ACTIVATE, when a US programme is actually real:
+         1. set role to 'both'
+         2. set priority to 0 to make it lead
+         3. add NoticeSpecimens with real, sourced text and its
+            plain-language rendering, cleared: true
+         4. add the webfont for any non-Latin script and set the
+            matching scriptFonts entry
+         5. add the credential block if partners hold one
+       Nothing else changes. No component, no stylesheet.
+       ------------------------------------------------------------ */
+    id: 'us',
+    label: 'United States',
+    role: 'fundraising',
+    priority: 2,
+    active: true,
+    registerTerm: 'docket',
+    notices: [],
+    motifs: [
+      'Legal-aid deserts: counties with no legal aid provider.',
+      'Pro se representation — appearing without counsel.',
+      "The clerk of court's received stamp.",
+    ],
+  },
 ];
 
-export const activeJurisdictions = jurisdictions.filter((j) => j.active);
+const byPriority = (a: Jurisdiction, b: Jurisdiction) => a.priority - b.priority;
+
+export const activeJurisdictions = jurisdictions.filter((j) => j.active).sort(byPriority);
+
+/** Where matters are heard and partners work. Drives the notice field. */
+export const programmeJurisdictions = activeJurisdictions.filter(
+  (j) => j.role === 'programme' || j.role === 'both',
+);
+
+/** Where money is raised. */
+export const fundraisingJurisdictions = activeJurisdictions.filter(
+  (j) => j.role === 'fundraising' || j.role === 'both',
+);
 
 /**
- * Every notice the site is currently allowed to show.
- * Active jurisdictions only, cleared specimens only.
+ * Every notice the site is allowed to show: programme jurisdictions
+ * only, cleared specimens only. A fundraising-only jurisdiction has
+ * no courts of ours to speak of, so it cannot contribute notices
+ * even if specimens were added to it by mistake.
  */
-export const clearedNotices: NoticeSpecimen[] = activeJurisdictions
+export const clearedNotices: NoticeSpecimen[] = programmeJurisdictions
   .flatMap((j) => j.notices)
   .filter((n) => n.cleared);
 
