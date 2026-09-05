@@ -19,16 +19,22 @@ body {
 
 img, video { max-width: 100%; display: block; }
 
-a { color: var(--record); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-a:hover { color: var(--stamp); }
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--tan);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover { color: var(--tan); }
 
-:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--tan); outline-offset: 3px; }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--stamp); color: #fff; padding: 12px 18px;
+  background: var(--ink); color: var(--paper); padding: 12px 18px;
   font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
 }
 .skip:focus { left: 0; }
@@ -56,7 +62,7 @@ a:hover { color: var(--stamp); }
   text-decoration: none; line-height: 1; white-space: nowrap;
 }
 .wordmark:hover { color: var(--on-dark); }
-.wordmark .mark-v { color: var(--stamp); }
+.wordmark .mark-v { color: var(--tan-on-dark); }
 
 .site-nav { display: flex; align-items: center; gap: 26px; }
 .site-nav a {
@@ -72,11 +78,11 @@ a:hover { color: var(--stamp); }
 .btn-donate {
   font-family: var(--f-mono); font-size: 11px; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
-  background: var(--stamp); color: #FFF7F2;
+  background: var(--tan-on-dark); color: var(--walnut);
   padding: 11px 20px; text-decoration: none; white-space: nowrap;
   transition: background 160ms var(--ease-out);
 }
-.btn-donate:hover { background: var(--stamp-2); color: #FFF7F2; }
+.btn-donate:hover { background: var(--tan-on-dark-2); color: var(--walnut); }
 
 /* ------------------------------------------------------------
    Record footer — trust lives in the fine print.
@@ -95,7 +101,7 @@ a:hover { color: var(--stamp); }
 }
 .footer-grid h2 {
   font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--stamp);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--tan);
   margin: 0 0 14px;
 }
 .footer-grid ul { list-style: none; margin: 0; padding: 0; }
@@ -104,7 +110,7 @@ a:hover { color: var(--stamp); }
   font-size: 15px; color: var(--ink-2); text-decoration: none;
   border-bottom: 1px solid transparent;
 }
-.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--stamp); }
+.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--tan); }
 
 .footer-about .fw {
   font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
@@ -121,9 +127,9 @@ a:hover { color: var(--stamp); }
   letter-spacing: .04em; color: var(--ink-3);
 }
 @media (min-width: 760px) { .registration { grid-template-columns: 2fr 1fr; } }
-.registration .cert { color: var(--certified); font-weight: 600; }
+.registration .cert { color: var(--tan); font-weight: 600; }
 .registration a { color: var(--ink-3); }
-.registration a:hover { color: var(--stamp); }
+.registration a:hover { color: var(--tan); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

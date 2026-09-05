@@ -25,36 +25,49 @@ layout so it can be revised without a redesign.
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Homepage |
-| `assets/css/tokens.css` | Design tokens — palette, type, layout, motion |
-| `assets/css/base.css` | Reset, header, record footer |
-| `assets/css/hero.css` | Section 01 — "Entering an appearance" |
-| `assets/js/hero.js` | Hero animation trigger (font-aware) |
-| `assets/media/` | Image and video assets |
-| `tools/serve.py` | Local preview server |
+| `src/pages/` | Routes. `index.astro` is the homepage |
+| `src/layouts/Base.astro` | Document shell, meta tags, font loading |
+| `src/components/` | Page sections |
+| `src/content/site.ts` | **All copy and figures.** Components hold no prose |
+| `src/content/jurisdictions.ts` | Jurisdiction layer — per-programme-area motifs and vocabulary |
+| `src/styles/tokens.css` | Design tokens — palette, type, layout, motion |
+| `src/styles/base.css` | Reset, header, record footer |
+| `src/styles/hero.css` | Section 01 — "Entering an appearance" |
+| `public/media/` | Image and video assets |
+| `tools/serve.py` | Static server, for serving `dist/` without Node |
 | `docs/` | Design brief and notes |
 
 Design reference material (screenshots and screen recordings of reference
 sites) is kept locally and excluded from version control via `.gitignore` —
 it is large binary input to the design process, not site source.
 
+## Design system
+
+**"The Cause List"** — the site is structured as a legal record rather than a
+marketing page. It enumerates, dates and cites; every figure carries a
+superscript naming what it counts.
+
+The palette is drawn from the physical materials of a courtroom — walnut, aged
+paper, warm black ink, and a single brass-tan accent. Deliberately
+near-monochrome: the type and the structure carry the page, not colour.
+
+The core system is **jurisdiction-neutral**. Anything specific to one country's
+legal system — vocabulary, credentials, motifs — lives in
+`src/content/jurisdictions.ts`, so a second programme area is a content
+addition rather than a redesign.
+
 ## Stack
 
-Static HTML, CSS and vanilla JavaScript — no build step and no
-dependencies. This machine has no Node toolchain, so the site is written
-to deploy directly from the repository root.
-
-Content currently lives in the markup, with swappable copy marked by
-`CONTENT SLOT` comments. If we adopt a build step later (Astro was the
-brief's recommendation), that copy moves into a single content module.
-
-### Local preview
+[Astro](https://astro.build) with static output. Almost no JavaScript ships by
+default, which suits a content-driven site.
 
 ```
-python3 tools/serve.py 4321
+npm install
+npm run dev     # http://localhost:4321
+npm run build   # → dist/
 ```
 
-Then open http://127.0.0.1:4321.
+Node is installed at `~/.local/node` with symlinks in `~/.local/bin`.
 
 ### Accessibility and resilience
 

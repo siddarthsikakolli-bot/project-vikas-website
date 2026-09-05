@@ -1,0 +1,123 @@
+/* ============================================================
+   Project Vikas — design tokens
+   "The Cause List" · courtroom materials palette
+   ------------------------------------------------------------
+   Black, white and brown. The palette is drawn from the physical
+   materials of a courtroom rather than from any national colour:
+
+     walnut — the bench, the bar, the panelling. Dark wood.
+     paper  — aged filing stock, warm and unbleached.
+     ink    — warm near-black. Print, formality, rules.
+     tan    — brass rail, manila folder, worn leather. The single
+              accent, and the only saturated value in the system.
+
+   Deliberately near-monochrome. Restraint is the point: the type
+   and the structure carry the page, not colour.
+
+   Jurisdiction-neutral by construction — nothing here is specific
+   to one country's courts. India-specific motifs belong in the
+   jurisdiction layer, not in this file.
+   ============================================================ */
+
+:root {
+  /* --- grounds -------------------------------------------- */
+  --paper:    #F4EFE5;  /* primary ground — aged filing stock */
+  --paper-2:  #EBE4D6;  /* recessed panels */
+  --paper-3:  #DFD6C4;  /* pressed / active */
+  --white:    #FCFAF6;  /* document plate — the crispest surface */
+
+  /* --- ink ------------------------------------------------ */
+  --ink:      #12100D;  /* body text, heavy rules. Warm black. */
+  --ink-2:    #4C4339;  /* secondary text */
+  --ink-3:    #746A5A;  /* tertiary, mono labels */
+
+  /* --- wood ----------------------------------------------- */
+  --walnut:   #2A1E17;  /* dark grounds, the hero */
+  --walnut-2: #3D2C21;  /* raised wood */
+  --walnut-3: #533E2E;  /* edges, hairlines on wood */
+
+  /* --- the one accent ------------------------------------- */
+  --tan:         #8F6B3C;  /* on light grounds. Darkened for contrast. */
+  --tan-2:       #A57F4B;  /* hover */
+  --tan-on-dark:   #C9A16A;  /* on walnut — the brass rail */
+  --tan-on-dark-2: #DDB77E;  /* its hover; does not switch with theme */
+
+  /* --- rules ---------------------------------------------- */
+  --rule:        #C8BCA6;
+  --rule-hair:   #DBD2BF;
+  --rule-strong: #12100D;
+
+  /* --- on dark grounds ------------------------------------
+     The hero is dark in BOTH themes, so anything printed on it
+     needs values that do not switch with the theme.
+     -------------------------------------------------------- */
+  --on-dark:      #F4EFE5;
+  --on-dark-2:    #C3B4A0;
+  --on-dark-3:    #96876F;
+  --on-dark-rule: #4B382B;
+
+  /* --- type ----------------------------------------------- */
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body:    "Newsreader", Georgia, "Times New Roman", serif;
+  --f-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* --- layout --------------------------------------------- */
+  --maxw:   1240px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --rail:   140px;
+
+  /* --- motion --------------------------------------------- */
+  --ease-out:  cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-both: cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+/* ------------------------------------------------------------
+   Dark theme. Grounds invert to a warm near-black — the same
+   room with the lights down, not a different room. Tan lifts to
+   its on-dark value so the accent survives the inversion.
+   ------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:    #14110E;
+    --paper-2:  #1C1814;
+    --paper-3:  #26201A;
+    --white:    #1C1814;
+
+    --ink:      #F0EBE0;
+    --ink-2:    #B7AB98;
+    --ink-3:    #8E8371;
+
+    --walnut:   #191410;
+    --walnut-2: #241C16;
+    --walnut-3: #33281F;
+
+    --tan:      #C9A16A;
+    --tan-2:    #DBB783;
+
+    --rule:        #3A3229;
+    --rule-hair:   #2A241E;
+    --rule-strong: #F0EBE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:    #14110E;
+  --paper-2:  #1C1814;
+  --paper-3:  #26201A;
+  --white:    #1C1814;
+
+  --ink:      #F0EBE0;
+  --ink-2:    #B7AB98;
+  --ink-3:    #8E8371;
+
+  --walnut:   #191410;
+  --walnut-2: #241C16;
+  --walnut-3: #33281F;
+
+  --tan:      #C9A16A;
+  --tan-2:    #DBB783;
+
+  --rule:        #3A3229;
+  --rule-hair:   #2A241E;
+  --rule-strong: #F0EBE0;
+}

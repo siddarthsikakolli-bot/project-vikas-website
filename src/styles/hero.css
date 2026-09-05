@@ -13,7 +13,7 @@
 
 .hero {
   position: relative;
-  background: var(--record-deep);
+  background: var(--walnut);
   color: var(--on-dark);
   overflow: hidden;
   min-height: min(88vh, 800px);
@@ -41,8 +41,8 @@
     to bottom,
     transparent 0,
     transparent 43px,
-    rgba(237, 233, 224, .045) 43px,
-    rgba(237, 233, 224, .045) 44px
+    rgba(244, 239, 229, .05) 43px,
+    rgba(244, 239, 229, .05) 44px
   );
   pointer-events: none;
 }
@@ -56,7 +56,7 @@
   margin: 0 0 auto;
   display: flex; flex-wrap: wrap; gap: 4px 14px;
 }
-.hero__eyebrow .cert { color: var(--certified-on-dark); }
+.hero__eyebrow .cert { color: var(--tan-on-dark); }
 
 .hero__caption {
   font-family: var(--f-mono); font-size: 11px; font-weight: 500;
@@ -112,7 +112,7 @@
 /* --- the rule the name lands on ------------------------------- */
 .appearance__rule {
   height: 3px;
-  background: var(--stamp);
+  background: var(--tan-on-dark);
   margin: 30px 0 0;
   transform-origin: left center;
   transform: scaleX(1); /* final state by default — see note above */
@@ -157,10 +157,10 @@
   padding: 14px 24px; text-decoration: none; white-space: nowrap;
   transition: background 160ms var(--ease-out), color 160ms var(--ease-out);
 }
-.btn--primary { background: var(--stamp); color: #FFF7F2; }
-.btn--primary:hover { background: var(--stamp-2); color: #FFF7F2; }
+.btn--primary { background: var(--tan-on-dark); color: var(--walnut); }
+.btn--primary:hover { background: var(--tan-on-dark-2); color: var(--walnut); }
 .btn--ghost { border: 1px solid var(--on-dark-rule); color: var(--on-dark); }
-.btn--ghost:hover { background: var(--on-dark); color: var(--record-deep); border-color: var(--on-dark); }
+.btn--ghost:hover { background: var(--on-dark); color: var(--walnut); border-color: var(--on-dark); }
 
 .hero__cue {
   display: flex; align-items: center; gap: 10px;

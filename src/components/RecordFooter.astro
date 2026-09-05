@@ -1,0 +1,48 @@
+---
+import { org, mission, footerNav, footerConnect } from '../content/site';
+const year = new Date().getFullYear();
+---
+
+<!-- Section 11 — Record footer. Trust lives in the fine print. -->
+<footer class="record-footer" id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+
+      <div class="footer-about">
+        <p class="fw">{org.name}</p>
+        <p>{mission.short}</p>
+        <p><a href={`mailto:${org.email}`}>{org.email}</a></p>
+      </div>
+
+      <div>
+        <h2>Navigation</h2>
+        <ul>
+          {footerNav.map((item) => (
+            <li><a href={item.href} rel={item.href.startsWith('http') ? 'noopener' : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2>Connect</h2>
+        <ul>
+          {footerConnect.map((item) => (
+            <li><a href={item.href} rel={item.href.startsWith('http') ? 'noopener' : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="registration">
+      <p>
+        {org.name} operates under the fiscal sponsorship of
+        <a href={org.fiscalSponsor.url} rel="noopener">{org.fiscalSponsor.name}</a>,
+        a registered <span class="cert">{org.fiscalSponsor.status}</span> nonprofit organisation.
+        We partner with registered legal aid organisations in India rather than
+        providing legal representation directly.
+      </p>
+      <p>© {year} {org.name}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
