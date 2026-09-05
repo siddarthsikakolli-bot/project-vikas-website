@@ -235,9 +235,10 @@ export const whatWeDo = {
      /public/media/ and it renders; leave it null and the section
      closes up with no gap. */
   photo: {
-    src: null as string | null,
-    alt: 'Project Vikas launch event, Alpharetta, Georgia',
-    caption: 'Grand launch event, Alpharetta, Georgia',
+    src: '/media/event-launch.jpg' as string | null,
+    alt: 'Attendees seated in the venue at the Project Vikas grand launch event, Alpharetta, Georgia',
+    caption: 'Grand launch event, Celebrations Banquet, Alpharetta, Georgia. 60+ attendees.',
     date: '19 July 2025',
+    credit: 'Sri Photos',
   },
 } as const;

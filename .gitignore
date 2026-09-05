@@ -18,3 +18,6 @@ dist/
 
 # Astro
 .astro/
+
+# Full-size photo originals — kept locally, web versions live in public/media
+originals/

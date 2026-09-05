@@ -22,6 +22,16 @@ synthetic portraiture so that nothing can read as fabricated evidence.
 
 ## Real photography
 
-Documentary photographs — event coverage, partner work — go here as they are
-added, and are used only in small supporting positions, never as a hero or
-a major section background. Label each with date and source.
+Used only in small supporting positions, never as a hero or a major section
+background.
+
+| File | Date | Subject | Photographer |
+| --- | --- | --- | --- |
+| `event-launch.jpg` | 19 July 2025 | Grand launch event, Celebrations Banquet, Alpharetta GA | Sri Photos |
+
+**Outstanding:** the supplied files carry a visible "Sri Photos" watermark and
+appear to be proofs rather than delivered finals. Replace with clean files from
+the photographer before this is considered done, and keep the credit either way.
+
+Full-size originals are kept in `originals/`, which is excluded from version
+control.
