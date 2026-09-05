@@ -22,13 +22,13 @@ img, video { max-width: 100%; display: block; }
 a {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--tan);
+  text-decoration-color: var(--maroon);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-a:hover { color: var(--tan); }
+a:hover { color: var(--maroon); }
 
-:focus-visible { outline: 2px solid var(--tan); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--maroon); outline-offset: 3px; }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
@@ -62,7 +62,7 @@ a:hover { color: var(--tan); }
   text-decoration: none; line-height: 1; white-space: nowrap;
 }
 .wordmark:hover { color: var(--on-dark); }
-.wordmark .mark-v { color: var(--tan-on-dark); }
+.wordmark .mark-v { color: var(--maroon-on-dark); }
 
 .site-nav { display: flex; align-items: center; gap: 26px; }
 .site-nav a {
@@ -78,11 +78,15 @@ a:hover { color: var(--tan); }
 .btn-donate {
   font-family: var(--f-mono); font-size: 11px; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
-  background: var(--tan-on-dark); color: var(--walnut);
+  /* The primary action is off-white on near-black: maximum
+     contrast, and it keeps maroon as an accent rather than a UI
+     colour. Mid-maroon fails 4.5:1 with either black or white
+     type on it. */
+  background: var(--on-dark); color: var(--stage);
   padding: 11px 20px; text-decoration: none; white-space: nowrap;
   transition: background 160ms var(--ease-out);
 }
-.btn-donate:hover { background: var(--tan-on-dark-2); color: var(--walnut); }
+.btn-donate:hover { background: var(--maroon-on-dark-2); color: var(--stage); }
 
 /* ------------------------------------------------------------
    Record footer — trust lives in the fine print.
@@ -101,7 +105,7 @@ a:hover { color: var(--tan); }
 }
 .footer-grid h2 {
   font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--tan);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--maroon);
   margin: 0 0 14px;
 }
 .footer-grid ul { list-style: none; margin: 0; padding: 0; }
@@ -110,7 +114,7 @@ a:hover { color: var(--tan); }
   font-size: 15px; color: var(--ink-2); text-decoration: none;
   border-bottom: 1px solid transparent;
 }
-.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--tan); }
+.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--maroon); }
 
 .footer-about .fw {
   font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
@@ -127,9 +131,9 @@ a:hover { color: var(--tan); }
   letter-spacing: .04em; color: var(--ink-3);
 }
 @media (min-width: 760px) { .registration { grid-template-columns: 2fr 1fr; } }
-.registration .cert { color: var(--tan); font-weight: 600; }
+.registration .cert { color: var(--maroon); font-weight: 600; }
 .registration a { color: var(--ink-3); }
-.registration a:hover { color: var(--tan); }
+.registration a:hover { color: var(--maroon); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
