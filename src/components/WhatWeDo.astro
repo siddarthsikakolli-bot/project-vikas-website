@@ -1,0 +1,50 @@
+---
+/* Section 03 — what we actually do. */
+import '../styles/whatwedo.css';
+import { whatWeDo } from '../content/site';
+const photo = whatWeDo.photo;
+---
+
+<section class="sheet" id="work" aria-labelledby="work-head">
+  <div class="doc">
+
+    <h2 class="sec-head" id="work-head">
+      <span class="n">03</span>{whatWeDo.heading}
+    </h2>
+
+    {whatWeDo.paras.map((p) => (
+      <div class="para">
+        <div class="pnum">{p.n}</div>
+        <div class="ptext"><p>{p.text}</p></div>
+        <div class="marg">
+          {p.note && <><b>{p.note.label}</b>{p.note.text}</>}
+        </div>
+      </div>
+    ))}
+
+    <div class="steps">
+      {whatWeDo.steps.map((s) => (
+        <div class="step">
+          <div class="step__n">{s.n}</div>
+          <div class="step__body">
+            <p class="step__title">{s.title}</p>
+            <p class="step__detail">{s.detail}</p>
+          </div>
+          <div class="step__where">{s.where}</div>
+        </div>
+      ))}
+    </div>
+
+    {photo.src && (
+      <figure class="plate">
+        <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+        <figcaption class="plate__cap">
+          <b>{photo.date}</b>
+          {photo.caption}
+          <span class="src">Photograph. Project Vikas.</span>
+        </figcaption>
+      </figure>
+    )}
+
+  </div>
+</section>

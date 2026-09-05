@@ -186,3 +186,58 @@ export const causeList = {
 
   note: 'Illustrative. No real matter, party, or docket number is depicted.',
 } as const;
+
+/* ------------------------------------------------------------
+   Section 03 — what we actually do
+   Facts only: how money moves, and the limits of the role.
+   Paragraph numbering continues from section 02 — the homepage
+   reads as one document, not a stack of independent blocks.
+   ------------------------------------------------------------ */
+export const whatWeDo = {
+  heading: 'What we actually do',
+  paras: [
+    {
+      n: '¶ 4',
+      text: 'Project Vikas raises funds in the United States — through individual donations, corporate sponsorship, and community events — and directs them to registered legal aid organisations in India.',
+      note: { label: 'Fiscal sponsor', text: 'Indian Friends of Atlanta, a registered 501(c)(3). Project Vikas operates under its sponsorship.' },
+    },
+    {
+      n: '¶ 5',
+      text: 'We do not provide legal representation ourselves, and we do not operate courts or clinics. Our partner organisations do that work. Our role is to fund it, and to state plainly what was raised and where it went.',
+      note: null,
+    },
+  ],
+
+  steps: [
+    {
+      n: '1.',
+      title: 'Raise',
+      where: 'United States',
+      detail: 'Individual donations, corporate sponsorship, and community events.',
+    },
+    {
+      n: '2.',
+      title: 'Direct',
+      where: 'India',
+      detail: 'Funds are granted to registered legal aid organisations. Four partner organisations at present.',
+    },
+    {
+      n: '3.',
+      title: 'Account',
+      where: 'Public record',
+      detail: 'What has been raised, and the organisations it supports, are stated on this site with the date each figure was last confirmed.',
+    },
+  ],
+
+  /* ASSET SLOT — one small supporting photograph.
+     Real documentary photography only, never generated, and never
+     at hero or full-section scale. Set `src` to a file in
+     /public/media/ and it renders; leave it null and the section
+     closes up with no gap. */
+  photo: {
+    src: null as string | null,
+    alt: 'Project Vikas launch event, Alpharetta, Georgia',
+    caption: 'Grand launch event, Alpharetta, Georgia',
+    date: '19 July 2025',
+  },
+} as const;
