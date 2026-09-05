@@ -8,8 +8,8 @@ documentation of real people, places, or work.
 
 | File | Model | Use |
 | --- | --- | --- |
-| `hero.mp4` | seedance_2_5 | Hero plate. Abstract macro texture, 10s, no subject |
-| `hero-plate.jpg` | z_image | Hero poster and reduced-motion fallback |
+| `hero.mp4` | minimax_h3 | Hero plate. Macro of a ruled line; a hairline of ink is drawn along it. 6.5s, locked camera, no subject |
+| `hero-plate.jpg` | recraft_v4_1 | Hero poster and reduced-motion fallback — the same ruled line, empty |
 | `texture-paper.jpg` | z_image | Section ground texture |
 | `plate-files.jpg` | recraft_v4_1 | Still life — bound documents |
 | `plate-doorway.jpg` | recraft_v4_1 | Still life — empty threshold |

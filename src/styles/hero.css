@@ -34,12 +34,38 @@
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: .38;
-  filter: saturate(.25);
+  /* The plate carries a hard band of light. Held this far down it
+     reads as material behind the caption rather than an image
+     competing with it — at .34 the band cut straight through the
+     party names and dropped their contrast. */
+  opacity: .20;
+  filter: saturate(.2);
 }
-.cover__plate--video { opacity: .34; }
+.cover__plate--video { opacity: .22; }
 @media (prefers-reduced-motion: reduce) {
   .cover__plate--video { display: none; }
+}
+
+/* Scrim protecting the text column. The caption sets left, so the
+   ground stays near-solid there and opens up toward the right,
+   where nothing is set. Without this the lit band and the italic
+   line land on top of each other. */
+.cover::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    100deg,
+    var(--stage) 0%,
+    color-mix(in srgb, var(--stage) 88%, transparent) 38%,
+    color-mix(in srgb, var(--stage) 55%, transparent) 72%,
+    color-mix(in srgb, var(--stage) 35%, transparent) 100%
+  );
+  pointer-events: none;
+}
+/* color-mix is widely supported, but fall back to a flat wash so
+   the type never sits on bare footage. */
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .cover::after { background: rgba(11, 10, 10, .72); }
 }
 
 /* Ledger ruling, so the section holds before any asset arrives. */
