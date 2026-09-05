@@ -1,0 +1,47 @@
+---
+/* The opening — the docket wall.
+   The backlog rendered as volume. Illustrative: no party names,
+   no real docket numbers, nothing that could be read as a real
+   register. The count stays blank until a figure is sourced. */
+import '../styles/opening.css';
+import { wall, cover } from '../content/site';
+
+const lines = Array.from({ length: wall.rows }, (_, i) => ({
+  n: i + 1,
+  heard: i + 1 === wall.heardRow,
+}));
+---
+
+<section class="wall" aria-labelledby="wall-head">
+
+  <div class="wall__lines" aria-hidden="true">
+    {lines.map((l) => (
+      <div class={`wall__line${l.heard ? ' wall__line--heard' : ''}`}>
+        <span class="wall__n">{String(l.n).padStart(3, '0')}.</span>
+        <span class="wall__rule"></span>
+      </div>
+    ))}
+  </div>
+
+  <div class="sheet">
+    <p class="wall__eyebrow">{cover.matterLine} {cover.subject.toLowerCase()}</p>
+
+    <h1 class="wall__count" id="wall-head">
+      {wall.count
+        ? <span class="tabular">{wall.count}</span>
+        : <span class="wall__blank" role="img" aria-label="figure pending citation"></span>
+      }{' '}{wall.subject}
+    </h1>
+
+    <p class="wall__note">{wall.note}</p>
+
+    {!wall.count && (
+      <p class="wall__pending"><b>Note.</b> {wall.pending}</p>
+    )}
+
+    <a class="wall__cue" href="#statement">
+      <span class="arrow" aria-hidden="true"></span>
+      <span>Continue</span>
+    </a>
+  </div>
+</section>

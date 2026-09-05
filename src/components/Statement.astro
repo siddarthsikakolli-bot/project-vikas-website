@@ -1,0 +1,16 @@
+---
+/* The second screen — one sentence, nothing else.
+   The organisation's own wording from the launch address,
+   compressed. Nothing new is asserted. */
+import { statement } from '../content/site';
+---
+
+<section class="statement" id="statement" aria-labelledby="statement-head">
+  <div class="sheet">
+    <p class="statement__text" id="statement-head">
+      {statement.lead}
+      <span class="em">{statement.emphasis.replace(/\.$/, '')}<span class="stop">.</span></span>
+    </p>
+    <p class="statement__attr">{statement.attribution}</p>
+  </div>
+</section>

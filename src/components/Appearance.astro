@@ -9,38 +9,17 @@
    The SUBJECT carries the largest type, not the organisation's
    name. A first-time visitor should learn what this is about
    before they learn who we are. See hero.css for the two beats. */
-import '../styles/hero.css';
+import '../styles/appearance.css';
 import { org, mission, cover } from '../content/site';
 ---
 
-<section class="cover" aria-labelledby="cover-subject">
-
-  {/* Plate. Abstract texture, no subject — nothing that could be
-      read as documentation. The still is always present; the
-      video layers over it and is dropped under reduced motion. */}
-  <img
-    class="cover__plate"
-    src="/media/hero-plate.jpg"
-    alt=""
-    aria-hidden="true"
-    decoding="async"
-    fetchpriority="high"
-  />
-  <video
-    class="cover__plate cover__plate--video"
-    src="/media/hero.mp4"
-    poster="/media/hero-plate.jpg"
-    autoplay muted loop playsinline
-    aria-hidden="true"
-    tabindex="-1"
-  ></video>
+<section class="cover sheet-section" id="appearance" aria-labelledby="cover-subject">
 
   <div class="sheet">
 
-    <p class="cover__matter">{cover.matterLine}</p>
-    <h1 class="cover__subject" id="cover-subject">{cover.subject}</h1>
-
-    <hr class="cover__caption-rule" />
+    <h2 class="sec-head" id="cover-subject">
+      <span class="n">01</span>The appearance
+    </h2>
 
     <div class="cover__caption">
       <div>

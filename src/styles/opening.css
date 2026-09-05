@@ -1,0 +1,182 @@
+/* ============================================================
+   The opening — docket wall, then the statement
+   ------------------------------------------------------------
+   Two dark screens before the record begins on paper. The wall
+   is the backlog made physical; the statement says plainly what
+   that backlog means. Both are type and rules only — no plate,
+   no footage, nothing behind them.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. The docket wall
+   ------------------------------------------------------------ */
+.wall {
+  position: relative;
+  background: var(--stage);
+  color: var(--on-dark);
+  overflow: hidden;
+  min-height: min(94vh, 860px);
+  display: flex;
+  align-items: center;
+  padding: 108px 0 64px;
+}
+
+/* The lines run off the top and bottom of the frame — the list
+   does not begin or end on screen, which is the point. */
+.wall__lines {
+  position: absolute;
+  inset: -6% 0 -6% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+.wall__line {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.wall__n {
+  font-family: var(--f-rec);
+  font-size: 10px;
+  color: #55504A;
+  min-width: 3.6em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.wall__rule {
+  flex: 1;
+  height: 0;
+  border-bottom: 1px solid #46413B;
+}
+
+/* The one that got counsel. The only accent in the frame. */
+.wall__line--heard .wall__n { color: var(--maroon-on-dark); }
+.wall__line--heard .wall__rule { border-bottom-color: var(--maroon-on-dark); }
+
+/* Scrim so the statement over the wall always clears it. Solid at
+   the left where type sets, opening to the right where the lines
+   stay legible. */
+.wall::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--stage) 88%, transparent) 0%,
+    color-mix(in srgb, var(--stage) 72%, transparent) 45%,
+    color-mix(in srgb, var(--stage) 30%, transparent) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .wall::after { background: rgba(11, 10, 10, .7); }
+}
+
+.wall .sheet { position: relative; z-index: 2; width: 100%; }
+
+.wall__eyebrow {
+  font-family: var(--f-rec);
+  font-size: clamp(11px, 1.3vw, 12.5px);
+  color: var(--on-dark-3);
+  margin: 0 0 24px;
+}
+
+/* The count. Blank until a figure is sourced — the blank is the
+   same ruled device used for an unnamed party, so an uncited
+   number reads as an open entry rather than an omission. */
+.wall__count {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(46px, 10vw, 132px);
+  line-height: .94; letter-spacing: -.022em;
+  margin: 0;
+  color: var(--on-dark);
+  max-width: 13em;
+  text-wrap: balance;
+}
+.wall__blank {
+  display: inline-block;
+  width: clamp(120px, 26vw, 340px);
+  height: .62em;
+  border-bottom: 3px solid var(--maroon-on-dark);
+  vertical-align: baseline;
+  transform-origin: left bottom;
+}
+.js .wall__blank { transform: scaleX(0); }
+.js.is-ready .wall__blank {
+  animation: wall-blank 820ms var(--ease-out) 200ms forwards;
+}
+@keyframes wall-blank { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.wall__note {
+  font-family: var(--f-text);
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.5;
+  color: var(--on-dark-2);
+  margin: 26px 0 0;
+  max-width: 34em;
+}
+.wall__pending {
+  font-family: var(--f-rec); font-size: 11.5px;
+  color: var(--on-dark-3);
+  margin: 12px 0 0;
+}
+.wall__pending b { color: var(--maroon-on-dark); font-weight: 400; }
+
+.wall__cue {
+  font-family: var(--f-rec); font-size: 12px;
+  color: var(--on-dark-3); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 9px;
+  margin-top: 34px;
+}
+.wall__cue:hover { color: var(--on-dark); }
+.wall__cue .arrow { width: 22px; height: 1px; background: currentColor; position: relative; }
+.wall__cue .arrow::after {
+  content: ""; position: absolute; right: 0; top: -3px;
+  width: 7px; height: 7px;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+/* ------------------------------------------------------------
+   2. The statement
+   One sentence, nothing else on the screen.
+   ------------------------------------------------------------ */
+.statement {
+  background: var(--stage);
+  color: var(--on-dark);
+  border-top: 1px solid var(--on-dark-rule);
+  padding: clamp(70px, 12vw, 150px) 0;
+}
+.statement__text {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(44px, 10.5vw, 148px);
+  line-height: .93; letter-spacing: -.024em;
+  margin: 0;
+  color: var(--on-dark);
+  max-width: 11em;
+  text-wrap: balance;
+}
+.statement__text .em { display: block; }
+.statement__text .stop { color: var(--maroon-on-dark); }
+
+.statement__attr {
+  font-family: var(--f-rec); font-size: 11.5px;
+  color: var(--on-dark-3);
+  margin: 32px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--on-dark-rule);
+  max-width: 34em;
+}
+
+@media (max-width: 640px) {
+  .wall { min-height: 0; padding: 92px 0 48px; }
+  .wall__lines { padding: 0 var(--gutter); }
+  .wall__n { min-width: 3.2em; font-size: 9.5px; }
+  .wall__note { margin-top: 20px; }
+  .wall__cue { margin-top: 26px; }
+  .statement { padding: 60px 0; }
+}

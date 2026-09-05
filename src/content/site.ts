@@ -248,3 +248,46 @@ export const whatWeDo = {
     credit: 'Sri Photos',
   },
 } as const;
+
+/* ------------------------------------------------------------
+   The opening — the docket wall
+   ------------------------------------------------------------
+   The backlog rendered as volume: numbered, ruled, empty lines
+   running off both edges of the frame. One line has counsel.
+
+   The count is deliberately BLANK. No figure goes on this page
+   without a source, and a figure set at that scale without one is
+   exactly the overclaim this site exists to avoid. A visible
+   blank is honest, and on a site whose whole subject is blanks in
+   the record it reads as deliberate rather than unfinished.
+
+   To fill it: set `count` and `countSource`, and the blank rule
+   is replaced by the figure automatically.
+   ------------------------------------------------------------ */
+export const wall = {
+  /** null until a citable figure exists. */
+  count: null as string | null,
+  countSource: null as string | null,
+  countAsOf: null as string | null,
+
+  subject: 'matters pending before India’s courts.',
+  note: 'Every line above is a matter that has not been heard. One of them has counsel.',
+  pending: 'Figure pending citation.',
+
+  /** Rows drawn in the wall. Illustrative volume, not a register:
+   *  no party names, no real docket numbers. */
+  rows: 46,
+  heardRow: 27,
+} as const;
+
+/* ------------------------------------------------------------
+   The second screen — the statement
+   Wording is the organisation's own, from the launch address:
+   "In India, millions face court without legal support."
+   Compressed, not embellished. Nothing new is asserted.
+   ------------------------------------------------------------ */
+export const statement = {
+  lead: 'Millions face court',
+  emphasis: 'without a lawyer.',
+  attribution: 'Project Vikas launch address, July 2025',
+} as const;
