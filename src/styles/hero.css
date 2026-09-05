@@ -141,7 +141,8 @@
   color: var(--on-dark-3);
 }
 @media (min-width: 820px) { .cover__meta { text-align: right; white-space: nowrap; } }
-.cover__meta b { color: var(--maroon-on-dark); font-weight: 400; }
+/* 12.5px — below the size where 3:1 suffices, so no accent. */
+.cover__meta b { color: var(--on-dark-2); font-weight: 400; }
 
 /* --- below the caption ---------------------------------------- */
 .cover__rule {

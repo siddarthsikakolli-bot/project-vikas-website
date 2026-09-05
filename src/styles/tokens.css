@@ -41,10 +41,19 @@
   /* --- the one accent ------------------------------------- */
   --maroon:           #78352E;  /* on light grounds */
   --maroon-2:         #8C3F36;  /* hover */
-  --maroon-on-dark:   #B96A5C;  /* on the dark ground. Lifted from the
-                                   light-ground maroon so 11px mono labels
-                                   clear 4.5:1 against near-black. */
-  --maroon-on-dark-2: #CB7E70;  /* its hover; does not switch with theme */
+  /* On the dark ground the accent is STRUCTURAL only: the rule
+     under the vacancy, and display-size type. Never small text.
+
+     WCAG asks 4.5:1 for ordinary text but only 3:1 for large text
+     and for graphical objects. The previous value was lifted to
+     clear 4.5:1 everywhere, including where it was never needed,
+     and that lift is what made it read salmon (hue 9deg, sat 50%).
+
+     #AD5254 is hue 359deg — on the red side of the wheel, well
+     clear of orange — and scores 3.87:1, which is what its uses
+     require. Small labels on dark take --on-dark-2 instead. */
+  --maroon-on-dark:   #AD5254;
+  --maroon-on-dark-2: #C06264;  /* hover; does not switch with theme */
 
   /* --- rules ---------------------------------------------- */
   --rule:        #C7C4BD;

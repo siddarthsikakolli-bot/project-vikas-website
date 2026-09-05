@@ -79,7 +79,8 @@ a:hover { color: var(--ink); }
   text-decoration: none; white-space: nowrap;
 }
 .runhead__id:hover { color: var(--on-dark); }
-.runhead__id .accent { color: var(--maroon-on-dark); }
+/* No accent at 17px: below the size where 3:1 suffices. */
+.runhead__id .accent { color: var(--on-dark); }
 
 .runhead__nav {
   display: none; gap: 22px;
@@ -91,7 +92,7 @@ a:hover { color: var(--ink); }
   font-family: var(--f-rec); font-size: 12px; color: var(--on-dark-3);
   white-space: nowrap;
 }
-.runhead__folio b { color: var(--maroon-on-dark); font-weight: 400; }
+.runhead__folio b { color: var(--on-dark-2); font-weight: 400; }
 
 /* ------------------------------------------------------------
    The document grid: paragraph number | text block | margin
