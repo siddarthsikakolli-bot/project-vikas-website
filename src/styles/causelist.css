@@ -76,6 +76,14 @@
 }
 @media (min-width: 700px) { .causelist__status { text-align: right; } }
 
+/* Below the three-column breakpoint the row has three children but
+   two tracks, so the status would land in the narrow number column
+   and wrap to three lines inside 54px. Put it under the matter
+   instead, where it reads as a sub-line of the entry. */
+@media (max-width: 699px) {
+  .causelist__status { grid-column: 2; padding-top: 1px; }
+}
+
 /* The one that was heard. The only maroon in the table, and the
    only row whose blank is closed. */
 .causelist__row--heard { border-bottom-color: var(--ink); }
