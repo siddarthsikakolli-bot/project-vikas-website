@@ -1,0 +1,135 @@
+/* ============================================================
+   Project Vikas — base, header, footer
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, video { max-width: 100%; display: block; }
+
+a { color: var(--record); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--stamp); }
+
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--stamp); color: #fff; padding: 12px 18px;
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+}
+.skip:focus { left: 0; }
+
+.u-mono {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.tabnum { font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------
+   Header — sits over the hero, so it is light-on-dark at rest.
+   ------------------------------------------------------------ */
+.site-header {
+  position: absolute; inset: 0 0 auto 0; z-index: 20;
+  padding: 22px 0;
+}
+.site-header .wrap {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+
+.wordmark {
+  font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+  font-size: 17px; letter-spacing: -.01em; color: var(--on-dark);
+  text-decoration: none; line-height: 1; white-space: nowrap;
+}
+.wordmark:hover { color: var(--on-dark); }
+.wordmark .mark-v { color: var(--stamp); }
+
+.site-nav { display: flex; align-items: center; gap: 26px; }
+.site-nav a {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--on-dark-2); text-decoration: none;
+}
+.site-nav a:hover { color: var(--on-dark); }
+
+.nav-links { display: none; gap: 26px; }
+@media (min-width: 900px) { .nav-links { display: flex; } }
+
+.btn-donate {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  background: var(--stamp); color: #FFF7F2;
+  padding: 11px 20px; text-decoration: none; white-space: nowrap;
+  transition: background 160ms var(--ease-out);
+}
+.btn-donate:hover { background: var(--stamp-2); color: #FFF7F2; }
+
+/* ------------------------------------------------------------
+   Record footer — trust lives in the fine print.
+   ------------------------------------------------------------ */
+.record-footer {
+  border-top: 7px solid var(--rule-strong);
+  padding: 44px 0 56px;
+  background: var(--paper);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1fr; gap: 32px;
+  padding-bottom: 34px;
+}
+@media (min-width: 760px) {
+  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+}
+.footer-grid h2 {
+  font-family: var(--f-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--stamp);
+  margin: 0 0 14px;
+}
+.footer-grid ul { list-style: none; margin: 0; padding: 0; }
+.footer-grid li { margin-bottom: 9px; }
+.footer-grid li a {
+  font-size: 15px; color: var(--ink-2); text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.footer-grid li a:hover { color: var(--ink); border-bottom-color: var(--stamp); }
+
+.footer-about .fw {
+  font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+  font-size: 21px; letter-spacing: -.015em; margin: 0 0 12px; color: var(--ink);
+}
+.footer-about p { margin: 0 0 12px; max-width: 46ch; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }
+
+/* Registration block — deliberately plain, deliberately specific. */
+.registration {
+  border-top: 1px solid var(--rule-hair);
+  padding-top: 20px;
+  display: grid; grid-template-columns: 1fr; gap: 10px 40px;
+  font-family: var(--f-mono); font-size: 11px; line-height: 1.7;
+  letter-spacing: .04em; color: var(--ink-3);
+}
+@media (min-width: 760px) { .registration { grid-template-columns: 2fr 1fr; } }
+.registration .cert { color: var(--certified); font-weight: 600; }
+.registration a { color: var(--ink-3); }
+.registration a:hover { color: var(--stamp); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

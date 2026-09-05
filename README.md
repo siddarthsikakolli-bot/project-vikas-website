@@ -25,8 +25,14 @@ layout so it can be revised without a redesign.
 
 | Path | Purpose |
 | --- | --- |
-| `README.md` | This file |
-| `docs/` | Design brief, style guide, and site content model |
+| `index.html` | Homepage |
+| `assets/css/tokens.css` | Design tokens — palette, type, layout, motion |
+| `assets/css/base.css` | Reset, header, record footer |
+| `assets/css/hero.css` | Section 01 — "Entering an appearance" |
+| `assets/js/hero.js` | Hero animation trigger (font-aware) |
+| `assets/media/` | Image and video assets |
+| `tools/serve.py` | Local preview server |
+| `docs/` | Design brief and notes |
 
 Design reference material (screenshots and screen recordings of reference
 sites) is kept locally and excluded from version control via `.gitignore` —
@@ -34,7 +40,29 @@ it is large binary input to the design process, not site source.
 
 ## Stack
 
-To be finalized with the approved design brief.
+Static HTML, CSS and vanilla JavaScript — no build step and no
+dependencies. This machine has no Node toolchain, so the site is written
+to deploy directly from the repository root.
+
+Content currently lives in the markup, with swappable copy marked by
+`CONTENT SLOT` comments. If we adopt a build step later (Astro was the
+brief's recommendation), that copy moves into a single content module.
+
+### Local preview
+
+```
+python3 tools/serve.py 4321
+```
+
+Then open http://127.0.0.1:4321.
+
+### Accessibility and resilience
+
+- The page renders complete and readable with JavaScript disabled: CSS
+  defaults are the *finished* animation state, and the pre-animation
+  state is applied only under the `.js` class set inline in `<head>`.
+- All motion respects `prefers-reduced-motion`.
+- Light and dark themes are both defined at token level.
 
 ## Deployment
 
