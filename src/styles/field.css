@@ -1,0 +1,182 @@
+/* ============================================================
+   The opening — the notice field
+   ------------------------------------------------------------
+   Hundreds of notices in real perspective, all unreadable. Over
+   about four seconds the field settles and exactly one document
+   decodes: the one that got counsel. The tier behind it half
+   resolves. Everything further back never resolves at all.
+
+   DEPTH IS THE ARGUMENT. Distance from the camera is distance
+   from representation — so the perspective is not a stage the
+   idea stands on, it is the idea.
+
+   Two layers, divided exactly where meaning divides:
+     near enough to read  → real DOM text, crisp and selectable
+     too far to read      → canvas pixels in fog
+
+   Nothing here is script-specific. Font and scramble alphabet
+   come from the jurisdiction layer.
+   ============================================================ */
+
+.field {
+  position: relative;
+  min-height: min(94vh, 880px);
+  background: var(--stage);
+  overflow: hidden;
+  perspective: 1150px;
+  perspective-origin: 46% 44%;
+}
+
+/* --- far field: too distant to read, so drawn as pixels ------- */
+.field__far {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+/* --- near field: close enough to read, so it is real text ----- */
+.field__space {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, -260px) rotateX(9deg) rotateY(-13deg);
+  transition: transform 2200ms cubic-bezier(.16, .8, .28, 1);
+}
+.field.is-settled .field__space {
+  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+}
+
+.notice {
+  position: absolute;
+  width: 250px;
+  padding: 13px 14px 15px;
+  background: rgba(233, 231, 226, .045);
+  border: 1px solid rgba(233, 231, 226, .10);
+  font-family: var(--f-rec);
+  font-size: 8.4px;
+  line-height: 1.62;
+  color: var(--on-dark-3);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.notice__hd {
+  font-size: 7.4px;
+  color: rgba(233, 231, 226, .34);
+  padding-bottom: 6px;
+  margin-bottom: 7px;
+  border-bottom: 1px solid rgba(233, 231, 226, .13);
+}
+.notice__body { margin: 0; word-break: break-word; }
+.notice .r { color: var(--on-dark); }
+.notice .k { color: var(--maroon-on-dark); }
+
+/* The one that got counsel. */
+.notice--read {
+  width: min(390px, 74vw);
+  padding: 20px 22px 22px;
+  background: rgba(233, 231, 226, .085);
+  border-color: rgba(233, 231, 226, .30);
+  font-size: 12.4px;
+  line-height: 1.72;
+  color: var(--on-dark-2);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .6);
+}
+.notice--read .notice__hd {
+  font-size: 9.4px;
+  color: var(--maroon-on-dark);
+  border-bottom-color: rgba(173, 82, 84, .4);
+}
+
+/* Per-script font stacks. Latin is covered by the site's own
+   faces; other scripts need a webfont loaded in Base.astro and
+   the matching token defined here before their specimens will
+   render correctly. See scriptFonts in jurisdictions.ts. */
+.notice[data-script="devanagari"] { font-family: var(--f-notice-devanagari, var(--f-rec)); }
+.notice[data-script="han"]        { font-family: var(--f-notice-han, var(--f-rec)); }
+.notice[data-script="arabic"]     { font-family: var(--f-notice-arabic, var(--f-rec)); }
+
+/* --- what the field says -------------------------------------- */
+.field__hud {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: clamp(84px, 9vw, 116px) var(--gutter) clamp(28px, 4vw, 46px);
+}
+.field .sheet { padding: 0; }
+
+.field__top {
+  font-family: var(--f-rec);
+  font-size: clamp(10.5px, 1.3vw, 12px);
+  color: var(--on-dark-3);
+  margin: 0;
+}
+
+.field__say { max-width: 22em; }
+.field__line {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(26px, 4.6vw, 62px);
+  line-height: 1.06; letter-spacing: -.016em;
+  margin: 0;
+  color: var(--on-dark);
+  text-shadow: 0 2px 30px rgba(11, 10, 10, .95);
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 900ms ease, transform 900ms cubic-bezier(.16, .8, .28, 1);
+}
+.field.is-told .field__line { opacity: 1; transform: none; }
+.field__line .em { color: var(--maroon-on-dark); }
+
+/* The pending count keeps its blank: no figure ships without a
+   source, and on a page about blanks in the record an uncited
+   number reads as an open entry rather than an omission. */
+.field__count {
+  font-family: var(--f-rec);
+  font-size: clamp(11px, 1.4vw, 12.5px);
+  color: var(--on-dark-2);
+  margin: 20px 0 0;
+  opacity: 0;
+  transition: opacity 800ms ease 260ms;
+}
+.field.is-told .field__count { opacity: 1; }
+.field__count .blank {
+  display: inline-block;
+  width: 5.4em;
+  border-bottom: 2px solid var(--maroon-on-dark);
+  margin-right: .35em;
+  vertical-align: -.14em;
+}
+.field__count b { color: var(--maroon-on-dark); font-weight: 400; }
+
+.field__cue {
+  font-family: var(--f-rec); font-size: 12px;
+  color: var(--on-dark-3); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 9px;
+  pointer-events: auto;
+  align-self: flex-start;
+}
+.field__cue:hover { color: var(--on-dark); }
+.field__cue .arrow { width: 22px; height: 1px; background: currentColor; position: relative; }
+.field__cue .arrow::after {
+  content: ""; position: absolute; right: 0; top: -3px;
+  width: 7px; height: 7px;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.field__foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 16px; flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .field { min-height: 88vh; perspective: 800px; }
+  .notice { width: 190px; font-size: 7.6px; }
+  .notice--read { width: min(320px, 86vw); font-size: 11.4px; }
+  .field__hud { padding-top: 76px; }
+}
+
+/* No motion: the field arrives already settled and already
+   decoded. The argument survives entirely — one document is
+   readable and the rest are not — it simply does not animate. */
+@media (prefers-reduced-motion: reduce) {
+  .field__space { transition: none; transform: none; }
+  .field__line, .field__count { transition: none; opacity: 1; transform: none; }
+}

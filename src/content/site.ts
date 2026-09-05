@@ -250,34 +250,34 @@ export const whatWeDo = {
 } as const;
 
 /* ------------------------------------------------------------
-   The opening — the docket wall
+   The opening — the notice field
    ------------------------------------------------------------
-   The backlog rendered as volume: numbered, ruled, empty lines
-   running off both edges of the frame. One line has counsel.
+   The notices themselves come from the jurisdiction layer, not
+   from here: language and script travel with the jurisdiction
+   that issues the document. See jurisdictions.ts.
 
-   The count is deliberately BLANK. No figure goes on this page
-   without a source, and a figure set at that scale without one is
-   exactly the overclaim this site exists to avoid. A visible
-   blank is honest, and on a site whose whole subject is blanks in
-   the record it reads as deliberate rather than unfinished.
-
-   To fill it: set `count` and `countSource`, and the blank rule
-   is replaced by the figure automatically.
+   The count is deliberately BLANK. No figure ships without a
+   source, and one set at this scale without a citation is the
+   overclaim this site exists to avoid. On a page about blanks in
+   the record, a visible blank reads as an open entry rather than
+   an omission. Set `count` and `countSource` and the blank rule
+   is replaced automatically.
    ------------------------------------------------------------ */
-export const wall = {
+export const field = {
   /** null until a citable figure exists. */
   count: null as string | null,
   countSource: null as string | null,
   countAsOf: null as string | null,
 
-  subject: 'matters pending before India’s courts.',
-  note: 'Every line above is a matter that has not been heard. One of them has counsel.',
+  eyebrow: 'In the matter of access to legal representation',
+  /** The subject phrase completes with the active jurisdictions. */
+  countSubject: 'matters pending before',
   pending: 'Figure pending citation.',
 
-  /** Rows drawn in the wall. Illustrative volume, not a register:
-   *  no party names, no real docket numbers. */
-  rows: 46,
-  heardRow: 27,
+  /** How many readable-scale notices to place in the near field. */
+  nearCount: 20,
+  /** How many are drawn as pixels behind them. */
+  farCount: 340,
 } as const;
 
 /* ------------------------------------------------------------

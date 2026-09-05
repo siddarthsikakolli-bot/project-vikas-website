@@ -1,0 +1,290 @@
+---
+/* ============================================================
+   The opening — the notice field.
+
+   Renders whatever cleared notices the ACTIVE jurisdictions
+   supply, in whatever scripts they are written in. Nothing here
+   is India-specific and nothing is English-specific: adding a
+   Spanish eviction notice or a Mandarin summons is a matter of
+   adding a cleared specimen to a jurisdiction.
+
+   Today exactly one specimen is cleared, so the field renders
+   that one. That is a data gap, not a code one.
+   ============================================================ */
+import '../styles/field.css';
+import { field } from '../content/site';
+import {
+  clearedNotices,
+  activeJurisdictions,
+  scrambleAlphabets,
+} from '../content/jurisdictions';
+
+/* Jurisdiction names complete the count sentence, so a second
+   programme area changes this line without touching markup. */
+const names = activeJurisdictions.map((j) => j.label);
+const where =
+  names.length === 0 ? 'the courts'
+  : names.length === 1 ? `${names[0]}’s courts`
+  : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+
+/* Only the alphabets the cleared specimens actually need. */
+const scripts = [...new Set(clearedNotices.map((n) => n.script))];
+const alphabets = Object.fromEntries(
+  scripts.map((s) => [s, scrambleAlphabets[s]]),
+);
+
+const payload = {
+  notices: clearedNotices.map((n) => ({
+    lang: n.lang,
+    script: n.script,
+    kind: n.kind,
+    text: n.text,
+    operative: n.operative,
+  })),
+  alphabets,
+  nearCount: field.nearCount,
+  farCount: field.farCount,
+};
+---
+
+<section class="field" id="field" aria-labelledby="field-line">
+
+  {/* Too far to read, so drawn as pixels. Decorative by definition. */}
+  <canvas class="field__far" id="field-far" aria-hidden="true"></canvas>
+
+  {/* Close enough to read, so real text. Each scrambled notice
+      carries its own aria-hidden — a screen reader must not be
+      made to recite gibberish — and the one that decodes has it
+      removed. The attribute cannot live on this wrapper: an
+      aria-hidden ancestor cannot be overridden by a descendant,
+      so the readable notice would stay hidden forever. */}
+  <div class="field__space" id="field-space"></div>
+
+  <div class="field__hud">
+    <p class="field__top">{field.eyebrow}</p>
+
+    <div class="field__foot">
+      <div class="field__say">
+        <p class="field__line" id="field-line">
+          Of the notices on this screen, <span class="em">one</span> can be read.
+        </p>
+
+        <p class="field__count">
+          {field.count
+            ? <><b class="tabular">{field.count}</b> {field.countSubject} {where}.</>
+            : <><span class="blank" role="img" aria-label="figure pending citation"></span> {field.countSubject} {where}. <b>{field.pending}</b></>
+          }
+        </p>
+      </div>
+
+      <a class="field__cue" href="#statement">
+        <span class="arrow" aria-hidden="true"></span>
+        <span>Continue</span>
+      </a>
+    </div>
+  </div>
+
+  <script type="application/json" id="field-data" set:html={JSON.stringify(payload)}></script>
+</section>
+
+<script>
+  /* The four seconds.
+     No library, no WebGL. Near notices are DOM text in a real
+     perspective projection; the far field is canvas. The split is
+     the meaning: near enough to read is text, too far to read is
+     pixels. */
+  const root = document.getElementById('field');
+  const space = document.getElementById('field-space');
+  const far = document.getElementById('field-far') as HTMLCanvasElement | null;
+  const dataEl = document.getElementById('field-data');
+  if (root && space && far && dataEl) {
+    const data = JSON.parse(dataEl.textContent || '{}');
+    const specimens = data.notices || [];
+
+    if (specimens.length) {
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Deterministic, so the field is identical on every load and
+         does not shimmer between renders. */
+      const hash = (a: number, b: number) => {
+        const x = Math.sin((a + 1) * 91.7 + (b + 1) * 13.13) * 43758.5453;
+        return x - Math.floor(x);
+      };
+
+      const scramble = (word: string, script: string, seed: number) => {
+        const pool = data.alphabets[script] || data.alphabets.latin || 'abcdefghijklmnopqrstuvwxyz';
+        const chars = [...pool];
+        let out = '';
+        for (const ch of [...word]) {
+          if (/[\p{L}]/u.test(ch)) {
+            const g = chars[Math.floor(hash(seed + out.length, word.length) * chars.length)];
+            out += ch === ch.toUpperCase() && ch !== ch.toLowerCase() ? g.toUpperCase() : g;
+          } else out += ch;
+        }
+        return out;
+      };
+
+      /* ratio 0 = unreadable, 1 = fully legible. Words resolve in an
+         uneven order, the way comprehension actually arrives. */
+      const textAt = (spec: any, ratio: number, seed: number) => {
+        const words = spec.text.split(' ');
+        const keys = new Set(spec.operative.map((k: string) => k.toLowerCase()));
+        let html = '';
+        words.forEach((w: string, i: number) => {
+          const shown = hash(seed + i * 3.1, i) < ratio;
+          const bare = w.replace(/[^\p{L}]/gu, '').toLowerCase();
+          const cls = shown ? (keys.has(bare) && ratio > 0.9 ? 'r k' : 'r') : '';
+          html += `<span class="${cls}">${shown ? w : scramble(w, spec.script, seed + i * 7)}</span> `;
+        });
+        return html;
+      };
+
+      /* ---- near field ---- */
+      const near: any[] = [];
+      for (let i = 0; i < data.nearCount; i++) {
+        const spec = specimens[i % specimens.length];
+        const read = i === 0;
+
+        const el = document.createElement('article');
+        el.className = 'notice' + (read ? ' notice--read' : '');
+        el.lang = spec.lang;
+        // Unreadable while scrambled, so kept out of the a11y tree.
+        el.setAttribute('aria-hidden', 'true');
+        el.dataset.script = spec.script;
+
+        const z = read ? 40 : -120 - i * 46 - hash(i, 2) * 40;
+        const x = read ? -4 : (hash(i, 5) - 0.5) * 190;
+        const y = read ? -2 : (hash(i, 9) - 0.5) * 130;
+        const rx = read ? 0 : (hash(i, 11) - 0.5) * 12;
+        const ry = read ? 0 : (hash(i, 13) - 0.5) * 20;
+
+        el.style.left = `calc(50% + ${x}px)`;
+        el.style.top = `calc(50% + ${y}px)`;
+        el.style.transform =
+          `translate(-50%,-50%) translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        el.style.opacity = read ? '1' : String(Math.max(0.22, 0.86 + z / 900));
+        el.style.zIndex = String(100 - i);
+
+        const hd = document.createElement('div');
+        hd.className = 'notice__hd';
+        hd.textContent = `${spec.kind}  ·  ${read ? 'counsel appeared' : 'no appearance'}`;
+        const body = document.createElement('p');
+        body.className = 'notice__body';
+
+        el.append(hd, body);
+        space.append(el);
+        near.push({ el, body, spec, seed: i * 31, read, tier: i < 6 ? 1 : 2 });
+      }
+
+      const reset = () => near.forEach((n) => (n.body.innerHTML = textAt(n.spec, 0, n.seed)));
+
+      /* ---- far field: hundreds more, as pixels in fog ---- */
+      const drawFar = () => {
+        const r = far.getBoundingClientRect();
+        if (!r.width) return;
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        far.width = r.width * dpr;
+        far.height = r.height * dpr;
+        const c = far.getContext('2d');
+        if (!c) return;
+        c.setTransform(dpr, 0, 0, dpr, 0, 0);
+        c.clearRect(0, 0, r.width, r.height);
+
+        const cx = r.width * 0.46, cy = r.height * 0.44;
+        for (let i = 0; i < data.farCount; i++) {
+          const depth = 0.12 + hash(i, 77) * 0.88;
+          const s = (1 - depth) * 0.5 + 0.06;
+          const w = 250 * s, h = 150 * s;
+          const ang = hash(i, 3) * Math.PI * 2;
+          const rad = (0.1 + hash(i, 4) * 1.25) * Math.max(r.width, r.height) * 0.62 * depth;
+          const x = cx + Math.cos(ang) * rad;
+          const y = cy + Math.sin(ang) * rad * 0.62;
+          if (x + w < -40 || x > r.width + 40 || y + h < -40 || y > r.height + 40) continue;
+
+          const a = (1 - depth) * 0.16;
+          c.fillStyle = `rgba(233,231,226,${(a * 0.5).toFixed(3)})`;
+          c.fillRect(x, y, w, h);
+          c.strokeStyle = `rgba(233,231,226,${a.toFixed(3)})`;
+          c.lineWidth = 1;
+          c.strokeRect(x + 0.5, y + 0.5, w, h);
+
+          const rows = Math.max(2, Math.floor(h / (7 * s + 3)));
+          c.fillStyle = `rgba(233,231,226,${(a * 0.55).toFixed(3)})`;
+          for (let k = 1; k <= rows; k++) {
+            const ly = y + (h / (rows + 1)) * k;
+            const lw = w * (0.45 + hash(i + k, 21) * 0.42);
+            c.fillRect(x + w * 0.09, ly, lw, Math.max(0.6, 1.1 * s));
+          }
+        }
+      };
+
+      const run = () => {
+        reset();
+
+        if (reduced) {
+          root.classList.add('is-settled', 'is-told');
+          near[0].body.innerHTML = textAt(near[0].spec, 1, near[0].seed);
+          near[0].el.removeAttribute('aria-hidden');
+          near.forEach((n, i) => {
+            if (i && n.tier === 1) n.body.innerHTML = textAt(n.spec, 0.34, n.seed);
+          });
+          return;
+        }
+
+        setTimeout(() => root.classList.add('is-settled'), 120);
+
+        const START = 900, DUR = 2000, STEPS = 26;
+        for (let s = 1; s <= STEPS; s++) {
+          setTimeout(() => {
+            const p = s / STEPS;
+            near[0].body.innerHTML = textAt(near[0].spec, p * p * 0.55 + p * 0.55, near[0].seed);
+          }, START + (DUR / STEPS) * s);
+        }
+
+        /* Once it is readable it stops being decorative, so it is
+           handed back to assistive technology. */
+        setTimeout(() => {
+          near[0].el.removeAttribute('aria-hidden');
+          near[0].el.setAttribute('role', 'note');
+        }, START + DUR);
+
+        setTimeout(() => {
+          near.forEach((n, i) => {
+            if (!i || n.tier !== 1) return;
+            setTimeout(() => {
+              n.body.innerHTML = textAt(n.spec, 0.2 + hash(i, 44) * 0.22, n.seed);
+            }, i * 140);
+          });
+        }, 1500);
+
+        setTimeout(() => root.classList.add('is-told'), 3100);
+      };
+
+      reset();
+      drawFar();
+      addEventListener('resize', drawFar);
+
+      /* This is the opening section: it is above the fold by
+         definition, so it runs on load rather than waiting on an
+         IntersectionObserver. Gating it on visibility meant that
+         anywhere the observer did not fire — a document that is
+         not being painted, an unusual embedding — the field sat
+         permanently scrambled and the visitor never got the
+         payoff. The decode IS the content; it must not be
+         conditional.
+
+         Waiting on fonts first: Courier Prime and the fallback
+         have different metrics, and re-flowing mid-decode makes
+         the words jump. */
+      let started = false;
+      const begin = () => { if (!started) { started = true; run(); } };
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(begin);
+        setTimeout(begin, 1200);   // never wait indefinitely on a font
+      } else {
+        begin();
+      }
+    }
+  }
+</script>
