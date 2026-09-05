@@ -3,9 +3,11 @@
 **/.DS_Store
 
 # Design reference material (local only — large screenshots/video, not site source)
-Ref_Farm_Africa/
-Ref_Age_of_Union/
-Ref_Van_Morrison/
+# Design reference material: large binaries, local input to the design
+# process rather than site source. Pattern-matched rather than listed by
+# name — naming them individually is how Ref_Outpost/ was committed by
+# accident when it arrived later.
+Ref_*/
 
 # Node / build
 node_modules/
