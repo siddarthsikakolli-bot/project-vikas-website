@@ -176,21 +176,28 @@ export const causeList = {
       note: { label: 'As confirmed', text: 'Raised since 12 February 2025: $18,000. Partner organisations: 4.' },
     },
   ],
+} as const;
 
-  /* Illustrative rows. No party names, no docket numbers, nothing
-     that could be read as a real matter — see causelist.css. The
-     heard row differs only by the rule under its blank being
-     drawn, which repeats the cover-sheet mechanic. */
-  rows: [
-    { n: '1.', status: 'Adjourned — no appearance', heard: false },
-    { n: '2.', status: 'Awaiting counsel', heard: false },
-    { n: '3.', status: 'Adjourned — no appearance', heard: false },
-    { n: '4.', status: 'Awaiting counsel', heard: false },
-    { n: '5.', status: 'Counsel appeared', heard: true },
-    { n: '6.', status: 'Awaiting counsel', heard: false },
+/* ------------------------------------------------------------
+   Section 02 — the case file
+   ------------------------------------------------------------
+   Replaces the illustrative cause-list table, which restated at
+   six rows what the notice field already says at hundreds. The
+   field is scale; this is one matter, as an object.
+
+   The model is generated, and the caption says so. It depicts no
+   real file and carries no readable text — the same rule the
+   notice field follows.
+   ------------------------------------------------------------ */
+export const caseFile = {
+  still: '/media/case-file.jpg',
+  alt: 'A bundle of papers bound with cord, seen against a dark ground',
+  label: 'One matter',
+  hint: 'Drag to turn',
+  body: [
+    'A matter is a bundle of paper, bound and set down. This is one of them, modelled in three dimensions from a single generated still — turn it.',
+    'It depicts no real file and carries no readable text. Like the notices above it, it is an interpretation rather than a record.',
   ],
-
-  note: 'Illustrative. No real matter, party, or docket number is depicted.',
 } as const;
 
 /* ------------------------------------------------------------

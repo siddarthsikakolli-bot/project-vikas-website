@@ -23,6 +23,8 @@ rules only.
 | `plate-doorway.jpg` | recraft_v4_1 | Still life — empty threshold |
 | `plate-ledger.jpg` | recraft_v4_1 | Still life — ruled register page |
 | `og-card.jpg` | composite | Share card: generated plate + Archivo wordmark |
+| `case-file.jpg` | recraft_v4_1 | Source still for the 3D model, and the fallback the section renders without it |
+| `case-file.glb` | Meshy image_to_3d | 3D case file, section 02. Lifted from case-file.jpg, texture repacked 2048->1024 (4.7MB -> 1.6MB) |
 
 None of these depict real people, real cases, or real Project Vikas work.
 They are interpretive still life and texture, chosen deliberately over

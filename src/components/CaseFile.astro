@@ -1,0 +1,157 @@
+---
+/* Section 02 — the case file.
+   One matter as an object you can turn. Replaces the illustrative
+   cause-list table; see casefile.css for why. */
+import '../styles/casefile.css';
+import { caseFile } from '../content/site';
+---
+
+<figure class="casefile" id="casefile">
+  <div class="casefile__stage">
+    {/* Always present. This is what a visitor sees if the viewer
+        never loads, and it is what the viewer is a model of. */}
+    <img
+      class="casefile__still"
+      src={caseFile.still}
+      alt={caseFile.alt}
+      loading="lazy"
+      decoding="async"
+    />
+    <canvas class="casefile__canvas" id="casefile-canvas" aria-hidden="true"></canvas>
+    <p class="casefile__hint">{caseFile.hint}</p>
+  </div>
+
+  <figcaption class="casefile__cap">
+    <b>{caseFile.label}</b>
+    {caseFile.body.map((line) => <p>{line}</p>)}
+  </figcaption>
+</figure>
+
+<script>
+  /* Loads three.js only when the figure comes into view. That is
+     safe here in a way it was not for the opening: this sits well
+     below the fold, and if the import never runs the still image
+     is already on screen carrying the section. */
+  const fig = document.getElementById('casefile');
+  const canvas = document.getElementById('casefile-canvas') as HTMLCanvasElement | null;
+
+  if (fig && canvas) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let started = false;
+
+    const boot = async () => {
+      if (started) return;
+      started = true;
+
+      let THREE: typeof import('three');
+      let GLTFLoader: typeof import('three/examples/jsm/loaders/GLTFLoader.js')['GLTFLoader'];
+      try {
+        THREE = await import('three');
+        ({ GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js'));
+      } catch {
+        return; // still image keeps the section
+      }
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+      camera.position.set(0, 0, 3.1);
+
+      /* Lit the way the still is lit: one key from the front-left,
+         a soft fill, and enough ambient that the paper edges read
+         rather than crushing to black. */
+      scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+      const key = new THREE.DirectionalLight(0xfff6ea, 2.1);
+      key.position.set(-2.2, 2.4, 3.2);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xbfc6d2, 0.75);
+      fill.position.set(2.6, -0.6, 1.4);
+      scene.add(fill);
+
+      const pivot = new THREE.Group();
+      scene.add(pivot);
+
+      let ready = false;
+      new GLTFLoader().load(
+        '/media/case-file.glb',
+        (gltf) => {
+          const model = gltf.scene;
+
+          // Centre on its own bounding box and normalise scale, so
+          // the framing does not depend on how the mesh was exported.
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
+          const centre = box.getCenter(new THREE.Vector3());
+          model.position.sub(centre);
+          const longest = Math.max(size.x, size.y, size.z) || 1;
+          model.scale.setScalar(1.75 / longest);
+
+          pivot.add(model);
+          ready = true;
+          fig.classList.add('is-live');
+        },
+        undefined,
+        () => { /* still image keeps the section */ },
+      );
+
+      const size = () => {
+        const r = canvas.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        renderer.setSize(r.width, r.height, false);
+        camera.aspect = r.width / r.height;
+        camera.updateProjectionMatrix();
+      };
+      size();
+      addEventListener('resize', size);
+
+      /* Hand-rolled drag rather than OrbitControls: we only want
+         azimuth and a clamped elevation, and importing the control
+         costs more than the twenty lines it replaces. */
+      let azimuth = -0.45, elevation = 0.12;
+      let velocity = 0.0016;              // idle drift
+      let dragging = false, lastX = 0, lastY = 0, touched = false;
+
+      const onDown = (e: PointerEvent) => {
+        dragging = true; lastX = e.clientX; lastY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+        if (!touched) { touched = true; fig.classList.add('is-touched'); }
+      };
+      const onMove = (e: PointerEvent) => {
+        if (!dragging) return;
+        const dx = e.clientX - lastX, dy = e.clientY - lastY;
+        lastX = e.clientX; lastY = e.clientY;
+        azimuth += dx * 0.008;
+        elevation = Math.max(-0.55, Math.min(0.55, elevation + dy * 0.005));
+        velocity = dx * 0.0008;
+      };
+      const onUp = (e: PointerEvent) => {
+        dragging = false;
+        try { canvas.releasePointerCapture(e.pointerId); } catch {}
+      };
+      canvas.addEventListener('pointerdown', onDown);
+      canvas.addEventListener('pointermove', onMove);
+      canvas.addEventListener('pointerup', onUp);
+      canvas.addEventListener('pointercancel', onUp);
+
+      let visible = true;
+      new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { rootMargin: '80px' }).observe(fig);
+
+      const frame = () => {
+        requestAnimationFrame(frame);
+        if (!ready || !visible) return;
+        if (!dragging) {
+          velocity += ((reduced ? 0 : 0.0016) - velocity) * 0.03;  // settle back to drift
+          azimuth += velocity;
+        }
+        pivot.rotation.y = azimuth;
+        pivot.rotation.x = elevation;
+        renderer.render(scene, camera);
+      };
+      requestAnimationFrame(frame);
+    };
+
+    new IntersectionObserver((es) => { if (es[0].isIntersecting) boot(); }, { rootMargin: '300px' }).observe(fig);
+  }
+</script>

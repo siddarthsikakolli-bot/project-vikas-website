@@ -1,7 +1,7 @@
 ---
 /* Section 02 — the cause list. */
-import '../styles/causelist.css';
 import { causeList } from '../content/site';
+import CaseFile from './CaseFile.astro';
 ---
 
 <section class="sheet" id="cause-list" aria-labelledby="cause-list-head">
@@ -21,25 +21,7 @@ import { causeList } from '../content/site';
       </div>
     ))}
 
-    <div class="causelist">
-      <div class="causelist__head">
-        <span>No.</span>
-        <span>Matter</span>
-        <span>Standing</span>
-      </div>
-
-      {causeList.rows.map((row) => (
-        <div class={`causelist__row${row.heard ? ' causelist__row--heard' : ''}`}>
-          <div class="causelist__n">{row.n}</div>
-          <div class="causelist__matter">
-            In the matter of <span class={`causelist__blank${row.heard ? ' causelist__counsel' : ''}`}></span>
-          </div>
-          <div class="causelist__status">{row.status}</div>
-        </div>
-      ))}
-
-      <p class="causelist__note"><b>Note.</b> {causeList.note}</p>
-    </div>
+    <CaseFile />
 
   </div>
 </section>
