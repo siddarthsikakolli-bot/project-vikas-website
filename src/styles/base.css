@@ -148,11 +148,6 @@ a:hover { color: var(--ink); }
   vertical-align: .55em; margin-right: .7em;
 }
 
-.rule-double {
-  grid-column: 1 / -1;
-  border: 0; border-top: 3px double var(--ink); margin: 34px 0 0;
-}
-
 /* ------------------------------------------------------------
    The single action. Not a button pair — a record offers one.
    ------------------------------------------------------------ */
@@ -165,8 +160,6 @@ a:hover { color: var(--ink); }
 }
 .action--dark { color: var(--on-dark); }
 .action--dark:hover { background: var(--on-dark); color: var(--stage); }
-.action--light { color: var(--ink); }
-.action--light:hover { background: var(--ink); color: var(--paper); }
 
 /* ------------------------------------------------------------
    Colophon. Where a document records its own provenance.

@@ -1,7 +1,13 @@
 ---
 /* The second screen — one sentence, nothing else.
    The organisation's own wording from the launch address,
-   compressed. Nothing new is asserted. */
+   compressed. Nothing new is asserted.
+
+   Owns its stylesheet. It previously relied on the docket wall
+   importing it, and when the wall was retired the styles went
+   with it — the section shipped unstyled. A component that needs
+   a stylesheet imports it itself. */
+import '../styles/statement.css';
 import { statement } from '../content/site';
 ---
 

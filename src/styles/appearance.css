@@ -18,35 +18,9 @@
   padding: 8px 0 4px;
 }
 
-/* --- the matter line and the subject ---------------------------
-   The subject carries the largest type on the page. The old build
-   gave that weight to the organisation's name, which told a
-   first-time visitor nothing about the justice system — the
-   hierarchy was inverted relative to the meaning.
-   ---------------------------------------------------------------- */
-.cover__matter {
-  font-family: var(--f-rec);
-  font-size: clamp(11.5px, 1.4vw, 13px);
-  color: var(--ink-3);
-  text-align: center;
-  margin: 0 0 14px;
-}
-
-.cover__subject {
-  font-family: var(--f-display); font-weight: 400;
-  font-size: clamp(34px, 6.4vw, 82px);
-  line-height: 1.02; letter-spacing: -.014em;
-  text-align: center;
-  margin: 0 auto;
-  max-width: 16em;
-  text-wrap: balance;
-  color: var(--ink);
-}
-
-.cover__caption-rule {
-  border: 0; border-top: 1px solid var(--ink);
-  margin: 26px 0 26px;
-}
+/* The matter line and the subject moved to the notice field when
+   that became the opening. Their rules lived here until then and
+   were removed rather than left as dead weight. */
 
 /* --- the caption ---------------------------------------------- */
 .cover__caption {
