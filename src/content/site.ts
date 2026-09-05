@@ -176,28 +176,24 @@ export const causeList = {
       note: { label: 'As confirmed', text: 'Raised since 12 February 2025: $18,000. Partner organisations: 4.' },
     },
   ],
-} as const;
 
-/* ------------------------------------------------------------
-   Section 02 — the case file
-   ------------------------------------------------------------
-   Replaces the illustrative cause-list table, which restated at
-   six rows what the notice field already says at hundreds. The
-   field is scale; this is one matter, as an object.
+  /* The notice set against its own plain meaning. This is what
+     the opening dramatises, stated calmly and in full — and it
+     is the first place on the site the `plain` rendering we hold
+     for every specimen is actually shown.
 
-   The model is generated, and the caption says so. It depicts no
-   real file and carries no readable text — the same rule the
-   notice field follows.
-   ------------------------------------------------------------ */
-export const caseFile = {
-  still: '/media/case-file.jpg',
-  alt: 'A bundle of papers bound with cord, seen against a dark ground',
-  label: 'One matter',
-  hint: 'Drag to turn',
-  body: [
-    'A matter is a bundle of paper, bound and set down. This is one of them, modelled in three dimensions from a single generated still — turn it.',
-    'It depicts no real file and carries no readable text. Like the notices above it, it is an interpretation rather than a record.',
-  ],
+     Both columns are readable at rest and with no JavaScript.
+     The control is added by script and only ever takes legibility
+     AWAY, so nothing is hidden behind an interaction. */
+  rendering: {
+    label: 'The notice, and what it says',
+    issued: 'As issued',
+    explained: 'As counsel would explain it',
+    control: 'Representation',
+    hint: 'Drag to take it away',
+    states: ['None', 'Partial', 'Full'],
+    note: 'The left column is the document as a person receives it. The right is the same notice as counsel would put it. Nothing has been added between them — the second column is not extra information, it is the first one understood.',
+  },
 } as const;
 
 /* ------------------------------------------------------------

@@ -1,0 +1,131 @@
+/* ============================================================
+   Section 02 — the notice, and what it says
+   ------------------------------------------------------------
+   The notice set against its own plain meaning. What the opening
+   dramatises at speed and at scale, stated calmly and in full.
+
+   Both columns are readable at rest and without JavaScript. The
+   control is added by script and only ever removes legibility,
+   so nothing on this page is hidden behind an interaction.
+   ============================================================ */
+
+.rendering {
+  grid-column: 1 / -1;
+  margin: 20px 0 0;
+  border-top: 1px solid var(--ink);
+}
+
+.rendering__cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+@media (min-width: 820px) {
+  .rendering__cols { grid-template-columns: 1fr 1fr; }
+}
+
+.rendering__col {
+  padding: 18px 0 20px;
+  border-bottom: 1px solid var(--rule-hair);
+  min-width: 0;
+}
+@media (min-width: 820px) {
+  .rendering__col + .rendering__col {
+    border-left: 1px solid var(--rule-hair);
+    padding-left: 26px;
+  }
+  .rendering__col:first-child { padding-right: 26px; }
+}
+
+.rendering__lab {
+  font-family: var(--f-rec);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+}
+.rendering__col--plain .rendering__lab { color: var(--maroon); }
+
+/* As issued: record type, dense, unfriendly on purpose. */
+.rendering__issued {
+  font-family: var(--f-rec);
+  font-size: 13px;
+  line-height: 1.78;
+  color: var(--ink-2);
+  margin: 0;
+  word-break: break-word;
+}
+.rendering__issued .k { color: var(--maroon); }
+.rendering__issued .s { color: var(--ink-3); }
+
+/* As explained: the reading face, at a reading size. */
+.rendering__plain {
+  font-family: var(--f-text);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.58;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* --- the control, added by script ---------------------------- */
+.rendering__ctrl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 0 0;
+}
+.rendering__ctrl-lab {
+  font-family: var(--f-rec);
+  font-size: 11px;
+  color: var(--ink-3);
+  min-width: 12em;
+}
+.rendering__ctrl-lab b {
+  display: block;
+  color: var(--ink);
+  font-weight: 400;
+  font-size: 12.5px;
+  margin-bottom: 2px;
+}
+.rendering__ctrl input[type="range"] {
+  flex: 1;
+  min-width: 180px;
+  appearance: none;
+  height: 2px;
+  background: var(--rule);
+  outline: none;
+}
+.rendering__ctrl input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px; height: 15px;
+  background: var(--maroon);
+  border-radius: 0;
+  cursor: grab;
+}
+.rendering__ctrl input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px;
+  background: var(--maroon);
+  border: 0; border-radius: 0;
+  cursor: grab;
+}
+.rendering__ctrl input[type="range"]:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 6px;
+}
+.rendering__state {
+  font-family: var(--f-rec);
+  font-size: 12px;
+  color: var(--maroon);
+  min-width: 5em;
+  text-align: right;
+}
+
+.rendering__note {
+  font-family: var(--f-rec);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  margin: 14px 0 0;
+  max-width: 46em;
+}
+.rendering__note b { color: var(--maroon); font-weight: 400; }

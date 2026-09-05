@@ -1,7 +1,21 @@
 ---
-/* Section 02 — the cause list. */
+/* Section 02 — the cause list, and what a notice says. */
+import '../styles/rendering.css';
 import { causeList } from '../content/site';
-import CaseFile from './CaseFile.astro';
+import { clearedNotices, scrambleAlphabets } from '../content/jurisdictions';
+
+const notice = clearedNotices[0];
+const r = causeList.rendering;
+
+/* Only the alphabet this specimen needs. */
+const payload = notice
+  ? {
+      text: notice.text,
+      operative: notice.operative,
+      alphabet: scrambleAlphabets[notice.script],
+      states: r.states,
+    }
+  : null;
 ---
 
 <section class="sheet" id="cause-list" aria-labelledby="cause-list-head">
@@ -21,7 +35,97 @@ import CaseFile from './CaseFile.astro';
       </div>
     ))}
 
-    <CaseFile />
+    {notice && (
+      <div class="rendering" id="rendering">
+        <div class="rendering__cols">
+          <div class="rendering__col">
+            <p class="rendering__lab">{r.issued}</p>
+            {/* Real, complete text. The control can only take it away. */}
+            <p class="rendering__issued" id="rendering-issued" lang={notice.lang}>{notice.text}</p>
+          </div>
+          <div class="rendering__col rendering__col--plain">
+            <p class="rendering__lab">{r.explained}</p>
+            <p class="rendering__plain">{notice.plain}</p>
+          </div>
+        </div>
+
+        <p class="rendering__note"><b>Note.</b> {r.note}</p>
+
+        <script type="application/json" id="rendering-data" set:html={JSON.stringify(payload)}></script>
+      </div>
+    )}
 
   </div>
 </section>
+
+<script>
+  /* Adds a control that removes legibility from the left column.
+     Deliberately the inverse of the opening: there the notice
+     decodes for you, here you take representation away and watch
+     what is left. Nothing is hidden at rest — the column is fully
+     readable before this script runs, and stays readable if it
+     never does. */
+  const wrap = document.getElementById('rendering');
+  const target = document.getElementById('rendering-issued');
+  const dataEl = document.getElementById('rendering-data');
+
+  if (wrap && target && dataEl) {
+    const data = JSON.parse(dataEl.textContent || 'null');
+    if (data) {
+      const words: string[] = data.text.split(' ');
+      const keys = new Set(data.operative.map((k: string) => k.toLowerCase()));
+      const chars = [...data.alphabet];
+
+      const hash = (a: number, b: number) => {
+        const x = Math.sin((a + 1) * 91.7 + (b + 1) * 13.13) * 43758.5453;
+        return x - Math.floor(x);
+      };
+
+      const scramble = (w: string, seed: number) => {
+        let out = '';
+        for (const ch of [...w]) {
+          if (/\p{L}/u.test(ch)) {
+            const g = chars[Math.floor(hash(seed + out.length, w.length) * chars.length)];
+            out += ch === ch.toUpperCase() && ch !== ch.toLowerCase() ? g.toUpperCase() : g;
+          } else out += ch;
+        }
+        return out;
+      };
+
+      /* Words resolve unevenly, so comprehension arrives the way it
+         actually does rather than left to right. */
+      const thresholds = words.map((w, i) => hash(i * 3.1, i));
+
+      const render = (ratio: number) => {
+        if (ratio >= 1) { target.textContent = data.text; return; }
+        let html = '';
+        words.forEach((w, i) => {
+          const shown = thresholds[i] < ratio;
+          const bare = w.replace(/[^\p{L}]/gu, '').toLowerCase();
+          const cls = shown ? (keys.has(bare) ? 'k' : '') : 's';
+          html += `<span class="${cls}">${shown ? w : scramble(w, i * 7)}</span> `;
+        });
+        target.innerHTML = html;
+      };
+
+      const ctrl = document.createElement('div');
+      ctrl.className = 'rendering__ctrl';
+      ctrl.innerHTML =
+        `<label class="rendering__ctrl-lab" for="rendering-range"><b>${data.states ? 'Representation' : ''}</b>drag to take it away</label>` +
+        `<input type="range" id="rendering-range" min="0" max="100" value="100" step="1">` +
+        `<span class="rendering__state" id="rendering-state"></span>`;
+      wrap.querySelector('.rendering__note')?.before(ctrl);
+
+      const range = ctrl.querySelector('input') as HTMLInputElement;
+      const state = ctrl.querySelector('#rendering-state') as HTMLElement;
+
+      const update = () => {
+        const p = Number(range.value) / 100;
+        render(p);
+        state.textContent = p >= 1 ? data.states[2] : p > 0.15 ? data.states[1] : data.states[0];
+      };
+      range.addEventListener('input', update);
+      update();
+    }
+  }
+</script>

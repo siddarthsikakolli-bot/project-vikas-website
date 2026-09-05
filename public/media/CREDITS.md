@@ -6,6 +6,11 @@ documentation of real people, places, or work.
 
 ## Retired
 
+`case-file.glb` and `case-file.jpg` — a 3D case file for section 02.
+Built, shipped, and removed: it looked poor, and more to the point it was
+a section existing to justify an object rather than an object serving a
+section. Recoverable from git history.
+
 `hero.mp4` and `hero-plate.jpg` — the ink-stroke plate. The concept was
 sound; the generated motion was not, and it was retired rather than
 iterated. Not to be reused in that form. Recoverable from git history if
@@ -23,8 +28,6 @@ rules only.
 | `plate-doorway.jpg` | recraft_v4_1 | Still life — empty threshold |
 | `plate-ledger.jpg` | recraft_v4_1 | Still life — ruled register page |
 | `og-card.jpg` | composite | Share card: generated plate + Archivo wordmark |
-| `case-file.jpg` | recraft_v4_1 | Source still for the 3D model, and the fallback the section renders without it |
-| `case-file.glb` | Meshy image_to_3d | 3D case file, section 02. Lifted from case-file.jpg, texture repacked 2048->1024 (4.7MB -> 1.6MB) |
 
 None of these depict real people, real cases, or real Project Vikas work.
 They are interpretive still life and texture, chosen deliberately over
