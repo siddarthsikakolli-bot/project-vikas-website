@@ -1,12 +1,19 @@
 ---
 /* Section 01 — the cover sheet.
-   A case caption, not a headline with an eyebrow. See hero.css
-   for the two-beat mechanic. */
+   A case caption, read as one legal sentence:
+
+     In the matter of ACCESS TO LEGAL REPRESENTATION
+     ————————— , appearing without counsel
+     Project Vikas, entering an appearance
+
+   The SUBJECT carries the largest type, not the organisation's
+   name. A first-time visitor should learn what this is about
+   before they learn who we are. See hero.css for the two beats. */
 import '../styles/hero.css';
 import { org, mission, cover } from '../content/site';
 ---
 
-<section class="cover" aria-labelledby="cover-counsel">
+<section class="cover" aria-labelledby="cover-subject">
 
   {/* Plate. Abstract texture, no subject — nothing that could be
       read as documentation. The still is always present; the
@@ -30,23 +37,23 @@ import { org, mission, cover } from '../content/site';
 
   <div class="sheet">
 
-    <p class="cover__court">{cover.courtLine}</p>
+    <p class="cover__matter">{cover.matterLine}</p>
+    <h1 class="cover__subject" id="cover-subject">{cover.subject}</h1>
+
+    <hr class="cover__caption-rule" />
 
     <div class="cover__caption">
       <div>
-        {/* The vacancy. Never filled — nothing here may resemble
-            a real party to a real matter. */}
-        <p class="cover__party cover__party--blank" aria-hidden="true">
+        {/* The vacancy, running the full measure. Never filled —
+            nothing here may resemble a real party to a real matter. */}
+        <div class="cover__vacancy" aria-hidden="true">
           <span class="blank"></span>
-        </p>
-        <p class="cover__vee"><em>— {cover.vacancyNote}</em></p>
+        </div>
+        <p class="cover__vacancy-note">— <em>{cover.vacancyNote}</em></p>
 
         {/* The entry. Outline resolving to ink. */}
-        <h1
-          class="cover__party cover__party--counsel"
-          id="cover-counsel"
-          data-text={org.name}
-        >{org.name}</h1>
+        <p class="cover__counsel" data-text={org.name}>{org.name}</p>
+        <p class="cover__counsel-note">— <em>{cover.counselNote}</em></p>
       </div>
 
       <div class="cover__meta">
@@ -78,19 +85,27 @@ import { org, mission, cover } from '../content/site';
 
 <script>
   /* Start the two-beat entry once the display face has loaded.
-     Caslon Display and the Georgia fallback have different
-     metrics, so firing early makes the solid copy wipe across
-     letterforms that are about to reflow.
+     Caslon Display and the Georgia fallback have different metrics,
+     so firing early makes the solid copy wipe across letterforms
+     that are about to reflow.
 
-     The page is complete without this script: CSS defaults are
-     the finished state, and only the .js class (set inline in
-     <head>) opts into the pre-animation state. */
+     The page is complete without this script: CSS defaults are the
+     finished state, and only the .js class (set inline in <head>)
+     opts into the pre-animation state. */
   const root = document.documentElement;
 
+  function reveal() { root.classList.add('is-ready'); }
+
   function begin() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => root.classList.add('is-ready'));
-    });
+    // Two frames, so the pre-animation state is painted at least once
+    // and the browser does not collapse the transition.
+    requestAnimationFrame(() => requestAnimationFrame(reveal));
+    // rAF is throttled or paused where the document is not being
+    // painted. Without this the caption would sit in its
+    // pre-animation state — a zero-width rule and outline-only
+    // name — rather than its finished one. Adding the class twice
+    // is harmless.
+    setTimeout(reveal, 400);
   }
 
   if (document.fonts && document.fonts.ready) {

@@ -82,79 +82,99 @@
 
 .cover .sheet { position: relative; z-index: 2; }
 
-/* --- the court line ------------------------------------------- */
-.cover__court {
+/* --- the matter line and the subject ---------------------------
+   The subject carries the largest type on the page. The old build
+   gave that weight to the organisation's name, which told a
+   first-time visitor nothing about the justice system — the
+   hierarchy was inverted relative to the meaning.
+   ---------------------------------------------------------------- */
+.cover__matter {
   font-family: var(--f-rec);
   font-size: clamp(11.5px, 1.4vw, 13px);
   color: var(--on-dark-2);
   text-align: center;
-  margin: 0 0 30px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--on-dark-rule);
+  margin: 0 0 14px;
+}
+
+.cover__subject {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(34px, 6.4vw, 82px);
+  line-height: 1.02; letter-spacing: -.014em;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 16em;
+  text-wrap: balance;
+  color: var(--on-dark);
+}
+
+.cover__caption-rule {
+  border: 0; border-top: 1px solid var(--on-dark-rule);
+  margin: 30px 0 26px;
 }
 
 /* --- the caption ---------------------------------------------- */
 .cover__caption {
-  display: grid; grid-template-columns: 1fr; gap: 22px;
+  display: grid; grid-template-columns: 1fr; gap: 24px;
 }
 @media (min-width: 820px) {
-  .cover__caption { grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: end; }
+  .cover__caption { grid-template-columns: minmax(0, 1fr) auto; gap: 44px; align-items: end; }
 }
 
-.cover__party {
-  font-family: var(--f-display); font-weight: 400;
-  font-size: clamp(38px, 7.4vw, 92px);
-  line-height: 1.02; letter-spacing: -.014em;
-  margin: 0;
-}
-
-/* The vacancy. A ruled blank where a party's name would be —
-   deliberately never filled with anything that could read as a
-   real record. */
-.cover__party--blank .blank {
-  display: inline-block;
-  min-width: 7ch; max-width: 100%;
-  height: .62em;
+/* The vacancy. A ruled blank running the full measure — the
+   absence is the subject, so it is given room rather than tucked
+   in. Never filled with anything that could read as a real party. */
+.cover__vacancy { margin: 0 0 22px; }
+.cover__vacancy .blank {
+  display: block;
+  width: 100%;
+  height: 1.5em;
   border-bottom: 2px solid var(--maroon-on-dark);
   transform-origin: left bottom;
 }
-.js .cover__party--blank .blank { transform: scaleX(0); }
-.js.is-ready .cover__party--blank .blank {
-  animation: cover-vacancy 700ms var(--ease-out) 180ms forwards;
+.js .cover__vacancy .blank { transform: scaleX(0); }
+.js.is-ready .cover__vacancy .blank {
+  animation: cover-vacancy 760ms var(--ease-out) 180ms forwards;
 }
 @keyframes cover-vacancy { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-.cover__vee {
+.cover__vacancy-note,
+.cover__counsel-note {
   font-family: var(--f-text); font-style: italic;
-  font-size: clamp(15px, 1.8vw, 18px);
+  font-size: clamp(15px, 1.8vw, 19px);
   color: var(--on-dark-2);
-  margin: 10px 0 14px;
+  margin: 9px 0 0;
 }
 
-/* The entry. Outline resolving to ink. */
-.cover__party--counsel {
+/* The entry. Outline resolving to ink — smaller than the subject
+   now, which is correct: the organisation is counsel appearing in
+   the matter, not the matter itself. */
+.cover__counsel {
   position: relative;
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1.1; letter-spacing: -.012em;
+  margin: 0;
   color: var(--on-dark);
 }
 @supports (-webkit-text-stroke: 1px #000) {
-  .cover__party--counsel {
+  .cover__counsel {
     color: transparent;
-    -webkit-text-stroke: 1.1px var(--on-dark-3);
+    -webkit-text-stroke: .9px var(--on-dark-3);
   }
 }
-.cover__party--counsel::after {
+.cover__counsel::after {
   content: attr(data-text);
   position: absolute; left: 0; top: 0; width: 100%;
   color: var(--on-dark);
   -webkit-text-stroke: 0;
   pointer-events: none;
-  /* Default is the FINISHED state, so the name reads solid with
-     no JavaScript. The pre-animation state applies only under .js */
+  /* Default is the FINISHED state, so the name reads solid with no
+     JavaScript. The pre-animation state applies only under .js */
   clip-path: inset(0 0 0 0);
 }
-.js .cover__party--counsel::after { clip-path: inset(0 100% 0 0); }
-.js.is-ready .cover__party--counsel::after {
-  animation: cover-entry 880ms var(--ease-out) 460ms forwards;
+.js .cover__counsel::after { clip-path: inset(0 100% 0 0); }
+.js.is-ready .cover__counsel::after {
+  animation: cover-entry 880ms var(--ease-out) 520ms forwards;
 }
 @keyframes cover-entry {
   from { clip-path: inset(0 100% 0 0); }
@@ -214,7 +234,8 @@
 
 @media (max-width: 640px) {
   .cover { padding: 104px 0 40px; }
-  .cover__court { margin-bottom: 24px; padding-bottom: 13px; }
-  .cover__vee { margin: 8px 0 12px; }
+  .cover__matter { margin-bottom: 11px; }
+  .cover__caption-rule { margin: 24px 0 20px; }
+  .cover__vacancy { margin-bottom: 18px; }
   .cover__rule { margin: 24px 0 20px; }
 }

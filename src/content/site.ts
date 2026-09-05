@@ -134,9 +134,15 @@ export const footerConnect = [
    Section 01 — the cover sheet
    ------------------------------------------------------------ */
 export const cover = {
-  courtLine: 'In the matter of access to legal representation',
+  /* The caption reads as one legal sentence, and the SUBJECT carries
+     the largest type — not the organisation's name. A first-time
+     visitor should learn what this is about before they learn who
+     we are. */
+  matterLine: 'In the matter of',
+  subject: 'Access to legal representation',
   /** The unrepresented party. Stays blank, always. */
   vacancyNote: 'appearing without counsel',
+  counselNote: 'entering an appearance',
   particulars: [
     { label: 'Filed', value: '12 February 2025' },
     { label: 'Fiscal sponsor', value: 'Indian Friends of Atlanta' },
