@@ -22,14 +22,32 @@
   padding: 150px 0 46px;
 }
 
-/* Asset slot 01 — hero plate (video or still). Sits under the
-   type at low contrast; drop the file in and remove [hidden]. */
+/* Hero plate. Kept well down in contrast — it is a ground for the
+   type, not an image in its own right.
+
+   saturate(.25) is doing real work: the generated footage drifts
+   slightly warm over its ten seconds, and the palette is
+   deliberately near-neutral. Desaturating holds it in the same
+   world as the rest of the page.
+
+   The clip also brightens from start to end, so it does not loop
+   seamlessly. At this opacity the seam is imperceptible; raising
+   it would make the cut visible. */
 .hero__plate {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: .28;
-  filter: saturate(.7);
+  opacity: .38;
+  filter: saturate(.25);
+}
+
+/* The video layers over the still. If it cannot play — reduced
+   motion, a failed fetch, a browser blocking autoplay — the still
+   underneath is already carrying the section. */
+.hero__plate--video { opacity: .34; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__plate--video { display: none; }
 }
 
 /* Ledger ruling: faint horizontal lines, like a registry page.

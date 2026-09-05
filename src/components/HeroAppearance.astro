@@ -18,14 +18,30 @@ import { org, mission } from '../content/site';
 <section class="hero" aria-labelledby="hero-name">
 
   {/*
-    ASSET SLOT 01 — hero plate (video or still).
-    Drop the file into /public/media/ and uncomment. Nothing else
-    needs to change; the CSS ruling below carries the section
-    until then.
-
-    <video class="hero__plate" src="/media/hero.mp4"
-           autoplay muted loop playsinline aria-hidden="true"></video>
+    Hero plate. Abstract macro texture — no subject, nothing that
+    could read as documentation. The still is always present; the
+    video layers over it and is dropped entirely under
+    prefers-reduced-motion, so the plate never disappears.
   */}
+  <img
+    class="hero__plate"
+    src="/media/hero-plate.jpg"
+    alt=""
+    aria-hidden="true"
+    decoding="async"
+    fetchpriority="high"
+  />
+  <video
+    class="hero__plate hero__plate--video"
+    src="/media/hero.mp4"
+    poster="/media/hero-plate.jpg"
+    autoplay
+    muted
+    loop
+    playsinline
+    aria-hidden="true"
+    tabindex="-1"
+  ></video>
 
   <div class="wrap">
 
