@@ -1,0 +1,100 @@
+/* ============================================================
+   Section 04 — the figures
+   ------------------------------------------------------------
+   A ruled schedule. Not big-number tiles, not animated counters:
+   figures in a document are scheduled, and each carries the date
+   it was last confirmed on its own row.
+   ============================================================ */
+
+.ledger {
+  grid-column: 1 / -1;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 0;
+  font-size: 16px;
+}
+
+.ledger caption {
+  font-family: var(--f-rec);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  text-align: left;
+  padding-bottom: 9px;
+}
+
+.ledger th {
+  font-family: var(--f-rec);
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 0 14px 7px 0;
+  border-bottom: 1px solid var(--ink);
+  white-space: nowrap;
+}
+.ledger th.num,
+.ledger td.fig { text-align: right; padding-right: 0; }
+
+.ledger td {
+  padding: 13px 14px 13px 0;
+  border-bottom: 1px solid var(--rule-hair);
+  vertical-align: baseline;
+}
+.ledger tr:last-child td { border-bottom: 1px solid var(--ink); }
+
+.ledger td.n {
+  font-family: var(--f-rec);
+  font-size: 12.5px;
+  color: var(--maroon);
+  width: 3.4em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ledger td.item { color: var(--ink); }
+.ledger td.asof {
+  font-family: var(--f-rec);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* The figure column is the only place on the site where numerals
+   are set for comparison rather than for reading, so it opts out
+   of the oldstyle figures the body uses. */
+.ledger td.fig {
+  font-family: var(--f-display);
+  font-size: clamp(19px, 2.4vw, 26px);
+  color: var(--ink);
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.ledger__note {
+  grid-column: 1 / -1;
+  font-family: var(--f-rec);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  margin: 14px 0 0;
+  max-width: 46em;
+}
+.ledger__note b { color: var(--maroon); font-weight: 400; }
+
+/* On a phone the as-at date drops under the item rather than
+   squeezing a four-column table into 375px. */
+@media (max-width: 699px) {
+  .ledger, .ledger tbody, .ledger tr, .ledger td { display: block; width: 100%; }
+  .ledger thead { display: none; }
+  .ledger tr {
+    display: grid;
+    grid-template-columns: 3.4em 1fr auto;
+    gap: 2px 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule-hair);
+  }
+  .ledger tr:last-child { border-bottom: 1px solid var(--ink); }
+  .ledger td { padding: 0; border: 0; }
+  .ledger td.n { grid-row: 1; }
+  .ledger td.item { grid-row: 1; }
+  .ledger td.fig { grid-row: 1; text-align: right; }
+  .ledger td.asof { grid-column: 2 / -1; grid-row: 2; }
+}

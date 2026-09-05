@@ -1,0 +1,52 @@
+---
+/* Section 04 — the figures.
+   A schedule. Each row carries the date the figure was last
+   confirmed, so a stale figure is visible as stale rather than
+   quietly wrong. */
+import '../styles/ledger.css';
+import { figures, figuresSection } from '../content/site';
+---
+
+<section class="sheet" id="figures" aria-labelledby="figures-head">
+  <div class="doc">
+
+    <h2 class="sec-head" id="figures-head">
+      <span class="n">04</span>{figuresSection.heading}
+    </h2>
+
+    {figuresSection.paras.map((p) => (
+      <div class="para">
+        <div class="pnum">{p.n}</div>
+        <div class="ptext"><p>{p.text}</p></div>
+        <div class="marg">
+          {p.note && <><b>{p.note.label}</b>{p.note.text}</>}
+        </div>
+      </div>
+    ))}
+
+    <table class="ledger">
+      <caption>{figuresSection.tableCaption}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{figuresSection.cols.n}</th>
+          <th scope="col">{figuresSection.cols.item}</th>
+          <th scope="col">{figuresSection.cols.asOf}</th>
+          <th scope="col" class="num">{figuresSection.cols.figure}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {figures.map((f, i) => (
+          <tr>
+            <td class="n">{i + 1}.</td>
+            <td class="item">{f.label.charAt(0).toUpperCase() + f.label.slice(1)}</td>
+            <td class="asof">{f.asOf}</td>
+            <td class="fig">{f.display}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <p class="ledger__note"><b>Note.</b> {figuresSection.note}</p>
+
+  </div>
+</section>

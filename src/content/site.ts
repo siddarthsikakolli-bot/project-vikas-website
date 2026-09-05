@@ -291,3 +291,27 @@ export const statement = {
   emphasis: 'without a lawyer.',
   attribution: 'Project Vikas launch address, July 2025',
 } as const;
+
+/* ------------------------------------------------------------
+   Section 04 — the figures
+   ------------------------------------------------------------
+   A schedule, not a row of animated counters. Each figure is
+   stated with the date it was last confirmed; anything not
+   confirmed is left blank rather than estimated.
+
+   The numbers themselves live in `figures` above, so this block
+   holds only the framing around them.
+   ------------------------------------------------------------ */
+export const figuresSection = {
+  heading: 'The figures',
+  paras: [
+    {
+      n: '¶ 6',
+      text: 'Every figure below is stated with the date it was last confirmed. Where something has not been confirmed, it is left blank rather than estimated — the count of pending matters at the head of this page is blank for that reason.',
+      note: { label: 'Last confirmed', text: 'September 2026. Figures supersede any earlier published totals.' },
+    },
+  ],
+  tableCaption: 'Schedule of figures',
+  cols: { n: 'No.', item: 'Item', asOf: 'As at', figure: 'Figure' },
+  note: 'Where a figure is a floor rather than an exact count, it is written as such. The volunteer programme runs on Slack and cannot be counted precisely, so it is stated as more than one hundred rather than given a false precision.',
+} as const;
