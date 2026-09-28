@@ -1,0 +1,48 @@
+---
+/* Section 06 — get involved.
+   Four routes, one action each. Fixes the #involved anchor, which
+   both the header and the footer have been linking to with no
+   section behind it. */
+import '../styles/involved.css';
+import { involved } from '../content/site';
+---
+
+<section class="sheet" id="involved" aria-labelledby="involved-head">
+  <div class="doc">
+
+    <h2 class="sec-head" id="involved-head">
+      <span class="n">06</span>{involved.heading}
+    </h2>
+
+    {involved.paras.map((p) => (
+      <div class="para">
+        <div class="pnum">{p.n}</div>
+        <div class="ptext"><p>{p.text}</p></div>
+        <div class="marg">
+          {p.note && <><b>{p.note.label}</b>{p.note.text}</>}
+        </div>
+      </div>
+    ))}
+
+    <div class="involved">
+      {involved.routes.map((r) => (
+        <div class="route">
+          <div class="route__n">{r.n}</div>
+          <div class="route__body">
+            <p class="route__title">{r.title}</p>
+            <p class="route__detail">{r.detail}</p>
+            <a
+              class="route__action"
+              href={r.href}
+              rel={r.external ? 'noopener' : undefined}
+            >{r.action}<span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="route__who">{r.who}</div>
+        </div>
+      ))}
+
+      <p class="involved__note"><b>Note.</b> {involved.note}</p>
+    </div>
+
+  </div>
+</section>

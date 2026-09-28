@@ -4,7 +4,7 @@
     {
       "name": "project-vikas",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["/Users/siddarthsikakolli/Documents/Project Vikas/tools/serve.py", "4321"],
+      "runtimeArgs": ["-m", "http.server", "4321", "--directory", "dist"],
       "port": 4321
     }
   ]

@@ -246,7 +246,7 @@ export const whatWeDo = {
   photo: {
     src: '/media/event-launch.jpg' as string | null,
     alt: 'Attendees seated in the venue at the Project Vikas grand launch event, Alpharetta, Georgia',
-    caption: 'Grand launch event, Celebrations Banquet, Alpharetta, Georgia. 60+ attendees.',
+    caption: 'Grand launch event, Celebrations Banquet, Alpharetta, Georgia. 80+ attendees.',
     date: '19 July 2025',
     credit: 'Sri Photos',
   },
@@ -348,4 +348,71 @@ export const waiting = {
   stations: ['Filed', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Still listed'],
   counterLabel: 'Listings',
   caption: 'The light moves. The file does not.',
+} as const;
+
+/* ------------------------------------------------------------
+   Section 06 — get involved
+   ------------------------------------------------------------
+   Four routes, each with one action. No persuasion mechanics, no
+   urgency, no "limited spots" — a record invites, it does not
+   sell.
+
+   Deliberately NOT claimed here, because none of it is confirmed:
+   that applications are open right now, that any particular
+   cohort is recruiting, or that chapters currently exist
+   anywhere. The chapter route is written as an invitation to
+   start one, which is true regardless. If an application form is
+   live, add its URL to the relevant route and it replaces the
+   mailto.
+   ------------------------------------------------------------ */
+export const involved = {
+  heading: 'Get involved',
+  paras: [
+    {
+      n: '\u00b6 8',
+      text: 'Project Vikas is student-run. More than a hundred interns and volunteers across the United States and internationally have worked on it, most of them with no prior experience of legal work. Every route below reaches the same small team.',
+      note: { label: 'Note', text: 'Write to us and a person reads it. There is no form to be screened by first.' },
+    },
+  ],
+
+  routes: [
+    {
+      n: '1.',
+      title: 'Donate',
+      who: 'Anyone',
+      detail: 'Given through our fiscal sponsor, Indian Friends of Atlanta, a registered 501(c)(3). What is raised is published on this page with the date it was last confirmed.',
+      action: 'Donate',
+      href: 'https://www.paypal.com/ncp/payment/4ANDNFNGHRGH8',
+      external: true,
+    },
+    {
+      n: '2.',
+      title: 'Volunteer',
+      who: 'Students',
+      detail: 'Two tracks: legal research and writing, or outreach and communications. The programme runs year-round on Slack, and the writing it produces is published under the contributor\u2019s name.',
+      action: 'Write to us',
+      href: 'mailto:thevikasproject@gmail.com?subject=Volunteering%20with%20Project%20Vikas',
+      external: false,
+    },
+    {
+      n: '3.',
+      title: 'Partner',
+      who: 'Organisations',
+      detail: 'For legal aid organisations, student groups, and businesses. We state the nature of every partnership on this site rather than implying one with a logo.',
+      action: 'Write to us',
+      href: 'mailto:thevikasproject@gmail.com?subject=Partnering%20with%20Project%20Vikas',
+      external: false,
+    },
+    {
+      n: '4.',
+      title: 'Start a chapter',
+      who: 'Students',
+      detail: 'Run Project Vikas at your own school or university. Tell us where you are and what you want to build, and we will tell you plainly what it takes.',
+      action: 'Write to us',
+      href: 'mailto:thevikasproject@gmail.com?subject=Starting%20a%20Project%20Vikas%20chapter',
+      external: false,
+    },
+  ],
+
+  note: 'Project Vikas does not provide legal representation, and cannot give legal advice or take on a case. If you need a lawyer, contact a legal aid organisation in your jurisdiction directly.',
 } as const;
