@@ -204,14 +204,14 @@ const payload = {
           if (x + w < -40 || x > r.width + 40 || y + h < -40 || y > r.height + 40) continue;
 
           const a = (1 - depth) * 0.16;
-          c.fillStyle = `rgba(233,231,226,${(a * 0.5).toFixed(3)})`;
+          c.fillStyle = `rgba(12,12,11,${(a * 0.30).toFixed(3)})`;
           c.fillRect(x, y, w, h);
-          c.strokeStyle = `rgba(233,231,226,${a.toFixed(3)})`;
+          c.strokeStyle = `rgba(12,12,11,${(a * 0.60).toFixed(3)})`;
           c.lineWidth = 1;
           c.strokeRect(x + 0.5, y + 0.5, w, h);
 
           const rows = Math.max(2, Math.floor(h / (7 * s + 3)));
-          c.fillStyle = `rgba(233,231,226,${(a * 0.55).toFixed(3)})`;
+          c.fillStyle = `rgba(12,12,11,${(a * 0.34).toFixed(3)})`;
           for (let k = 1; k <= rows; k++) {
             const ly = y + (h / (rows + 1)) * k;
             const lw = w * (0.45 + hash(i + k, 21) * 0.42);

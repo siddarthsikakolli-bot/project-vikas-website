@@ -2,7 +2,15 @@
    Project Vikas — design tokens
    "The Cause List" · courtroom formality palette
    ------------------------------------------------------------
-   Black, a shadowed off-white, and one brown-maroon accent.
+   A shadowed off-white, near-black ink, and one oxblood accent.
+
+   ONE THEME, DELIBERATELY. This site is a published record, and a
+   record does not invert — a gazette is not reprinted white-on-black
+   because the reader's desk is dark. The dark variant that used to
+   live at the bottom of this file is why the site read as a case
+   file rather than a public document: on near-black, Courier and
+   oxblood stop being transcript-and-seal and become noir. Removed
+   rather than tuned. Do not reintroduce prefers-color-scheme here.
 
    Still courtroom materials, but read in black and white: the
    formality of print and record rather than the warmth of wood.
@@ -22,6 +30,8 @@
    ============================================================ */
 
 :root {
+  color-scheme: light;
+
   /* --- grounds -------------------------------------------- */
   --paper:   #E9E7E2;  /* primary ground — shadowed off-white */
   --paper-2: #DFDCD6;  /* recessed panels */
@@ -33,41 +43,13 @@
   --ink-2: #46453F;  /* secondary text */
   --ink-3: #6F6D66;  /* tertiary, mono labels */
 
-  /* --- the dark ground ------------------------------------ */
-  --stage:   #0B0A0A;  /* the hero, dark plates */
-  --stage-2: #151413;  /* raised */
-  --stage-3: #232120;  /* edges, hairlines on dark */
-
   /* --- the one accent ------------------------------------- */
   --maroon:           #78352E;  /* on light grounds */
   --maroon-2:         #8C3F36;  /* hover */
-  /* On the dark ground the accent is STRUCTURAL only: the rule
-     under the vacancy, and display-size type. Never small text.
-
-     WCAG asks 4.5:1 for ordinary text but only 3:1 for large text
-     and for graphical objects. The previous value was lifted to
-     clear 4.5:1 everywhere, including where it was never needed,
-     and that lift is what made it read salmon (hue 9deg, sat 50%).
-
-     #AD5254 is hue 359deg — on the red side of the wheel, well
-     clear of orange — and scores 3.87:1, which is what its uses
-     require. Small labels on dark take --on-dark-2 instead. */
-  --maroon-on-dark:   #AD5254;
-  --maroon-on-dark-2: #C06264;  /* hover; does not switch with theme */
-
   /* --- rules ---------------------------------------------- */
   --rule:        #C7C4BD;
   --rule-hair:   #D8D5CE;
   --rule-strong: #0C0C0B;
-
-  /* --- on dark grounds ------------------------------------
-     The hero is dark in BOTH themes, so anything printed on it
-     needs values that do not switch with the theme.
-     -------------------------------------------------------- */
-  --on-dark:      #E9E7E2;
-  --on-dark-2:    #A6A49D;
-  --on-dark-3:    #76746D;
-  --on-dark-rule: #2A2826;
 
   /* --- type -----------------------------------------------
      One family plus a typewriter.
@@ -103,54 +85,4 @@
   /* --- motion --------------------------------------------- */
   --ease-out:  cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-both: cubic-bezier(0.65, 0.05, 0.36, 1);
-}
-
-/* ------------------------------------------------------------
-   Dark theme. Grounds drop to near-black and the type inverts.
-   Maroon lifts to its on-dark value so the one accent survives.
-   ------------------------------------------------------------ */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper:   #0E0E0D;
-    --paper-2: #161615;
-    --paper-3: #1F1E1D;
-    --white:   #161615;
-
-    --ink:   #E9E7E2;
-    --ink-2: #ABA9A2;
-    --ink-3: #85837C;
-
-    --stage:   #080807;
-    --stage-2: #121211;
-    --stage-3: #1E1D1C;
-
-    --maroon:   #A65B4F;
-    --maroon-2: #BC6E60;
-
-    --rule:        #302E2C;
-    --rule-hair:   #232120;
-    --rule-strong: #E9E7E2;
-  }
-}
-
-:root[data-theme="dark"] {
-  --paper:   #0E0E0D;
-  --paper-2: #161615;
-  --paper-3: #1F1E1D;
-  --white:   #161615;
-
-  --ink:   #E9E7E2;
-  --ink-2: #ABA9A2;
-  --ink-3: #85837C;
-
-  --stage:   #080807;
-  --stage-2: #121211;
-  --stage-3: #1E1D1C;
-
-  --maroon:   #A65B4F;
-  --maroon-2: #BC6E60;
-
-  --rule:        #302E2C;
-  --rule-hair:   #232120;
-  --rule-strong: #E9E7E2;
 }

@@ -110,16 +110,20 @@ export const figures: Figure[] = [
   },
 ];
 
+/* Both navs carried a Partners link to #partners, which has never
+   existed — the same dead anchor #involved was until section 06.
+   Removed rather than pointed somewhere else: a nav entry is a promise
+   that a section exists, and the partner organisations cannot be named
+   on the site until they have agreed to be named. Restore both entries
+   in the same commit that adds the section. */
 export const nav = [
   { label: 'Our work', href: '#work' },
-  { label: 'Partners', href: '#partners' },
   { label: 'Get involved', href: '#involved' },
   { label: 'Contact', href: '#contact' },
 ] as const;
 
 export const footerNav = [
   { label: 'Our work', href: '#work' },
-  { label: 'Partners', href: '#partners' },
   { label: 'Get involved', href: '#involved' },
   { label: 'Donate', href: org.donateUrl },
 ] as const;
@@ -320,38 +324,7 @@ export const figuresSection = {
 } as const;
 
 /* ------------------------------------------------------------
-   Section 05 — the waiting
-   ------------------------------------------------------------
-   A scroll-scrubbed sequence: the file does not change, only the
-   light on it does. Scroll is the medium because scroll is
-   duration — crossing this section costs real seconds.
-
-   TEST, not a commitment. Contained to one section and one small
-   frame sequence so it can be cut without touching anything else.
-
-   Nothing here fabricates a matter. There are no dates, no docket
-   number and no party: the readout counts listings, which is a
-   description of how a court works rather than a claim about any
-   particular case. The count of pending matters stays blank for
-   the same reason it is blank at the head of the page.
-   ------------------------------------------------------------ */
-export const waiting = {
-  heading: 'The waiting',
-  paras: [
-    {
-      n: '¶ 7',
-      text: 'A matter that is not heard is listed again. The file does not change between listings. What changes is how long someone has been waiting for it to be opened.',
-      note: { label: 'Note', text: 'Illustrative. No date, docket number or party is depicted — only the shape of a matter that is repeatedly listed and not reached.' },
-    },
-  ],
-  /** Stations shown across the scrub, in order. */
-  stations: ['Filed', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Listed', 'Adjourned', 'Still listed'],
-  counterLabel: 'Listings',
-  caption: 'The light moves. The file does not.',
-} as const;
-
-/* ------------------------------------------------------------
-   Section 06 — get involved
+   Section 05 — get involved
    ------------------------------------------------------------
    Four routes, each with one action. No persuasion mechanics, no
    urgency, no "limited spots" — a record invites, it does not
@@ -369,7 +342,7 @@ export const involved = {
   heading: 'Get involved',
   paras: [
     {
-      n: '\u00b6 8',
+      n: '\u00b6 7',
       text: 'Project Vikas is student-run. More than a hundred interns and volunteers across the United States and internationally have worked on it, most of them with no prior experience of legal work. Every route below reaches the same small team.',
       note: { label: 'Note', text: 'Write to us and a person reads it. There is no form to be screened by first.' },
     },
