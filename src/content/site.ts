@@ -162,7 +162,7 @@ export const cover = {
    believes.
    ------------------------------------------------------------ */
 export const causeList = {
-  heading: 'The cause list',
+  heading: 'Without a lawyer',
   paras: [
     {
       n: '¶ 1',
@@ -207,7 +207,7 @@ export const causeList = {
    reads as one document, not a stack of independent blocks.
    ------------------------------------------------------------ */
 export const whatWeDo = {
-  heading: 'What we actually do',
+  heading: 'What we do',
   paras: [
     {
       n: '¶ 4',
